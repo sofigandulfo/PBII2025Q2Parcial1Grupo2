@@ -1,8 +1,10 @@
 package ar.edu.unlam.dominio;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
+import org.junit.Test;
 
 public class testGestor {
 	
@@ -39,5 +41,47 @@ public class testGestor {
 		assertTrue(seAgrego);
 	
 	
+	}
+	
+	@Test 
+	public void dadoQueExisteUnGestorSePuedePrestarUnDiscoAlquilableSiEstaDisponible() {
+		Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		
+		gestor.agregarDisco(pelicula);
+		
+		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		Cliente clienteP = new ClientePremium(456, "Jorge", "Jorgelin", 10);
+	
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente);
+		assertTrue(seAlquilo);
+		
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		assertFalse(seAlquilo);
+		
+		
+		
+	}
+	
+	@Test
+	public void dadoQueExisteUnGestorNoSePuedePrestarUnDiscoAlquilableHastaQueNoSeDevuelva() {
+		Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		
+		gestor.agregarDisco(pelicula);
+		
+		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		Cliente clienteP = new ClientePremium(456, "Jorge", "Jorgelin", 10);
+		
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente);
+		assertTrue(seAlquilo);
+		
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		assertFalse(seAlquilo);
+		
+		Boolean seDevolvio = gestor.devolverDisco(pelicula, cliente);
+		assertTrue(seDevolvio);
+		
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		assertTrue(seAlquilo);
+		
 	}
 }
