@@ -15,8 +15,9 @@ public class testGestor {
 	public void inicializacion() {
 		gestor = new Gestor();
 	}
+	
 	// base para saber el constructor de los discos
-	// peli: nombre, genero, año, director, duracion en min precio de venta, precio de alquiler
+	// peli: nombre, genero, año, director, duracion en min, precio de venta, precio de alquiler
 	// juego: nombre, consola, precio venta 
 	// musica: nombre del album, artista genero, cantidad de canciones, precioventa 
 	//prog: nombre del prog, version precio venta, precio alquiler
