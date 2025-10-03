@@ -15,7 +15,7 @@ public class testGestor {
 		gestor = new Gestor();
 	}
 	
-	// peli: nombre, genero, año, director, duracion en min precio de venta, precio de alquiler
+	// peli: nombre, genero, año, director, duracion en min, precio de venta, precio de alquiler
 	// juego: nombre, consola, precio venta 
 	// musica: nombre del album, artista genero, cantidad de canciones, precioventa 
 	//prog: nombre del prog, version precio venta, precio alquiler
