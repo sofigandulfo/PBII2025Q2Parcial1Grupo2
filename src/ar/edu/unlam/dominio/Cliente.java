@@ -48,6 +48,15 @@ public class Cliente {
 	public void setStrike(Integer strike) {
 		this.strike = strike;
 	}
+	
+	public Boolean estaBloqueado() {
+		if(this.strike == 3) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 	@Override
 	public int hashCode() {

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +26,7 @@ public class testGestor {
 	
 	@Test
 	public void dadoQueExisteUnGestorSePuedenAgregarDistintosTipoDeDiscoCorrectamente() {
-		Disco peli = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014,S "James Ward Byrkit", 120, 2000.0, 500.0); 
+		Disco peli = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
 		Disco juego = new Juego("Crash", Consola.PLAY_STATION, 500.0); 
 		Disco musica = new Musica("Miranda es imposible", "Miranda", GeneroMusica.POP, 9, 1500.0);
 		Disco programa = new Programa("Photoshop", "2.1.5", 2000.0, 300.0 ); 
@@ -56,10 +58,12 @@ public class testGestor {
 		gestor.agregarCliente(cliente);
 		gestor.agregarCliente(clienteP);
 		
-		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente);
+		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
+		
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision);
 		assertTrue(seAlquilo);
 		
-		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP, fechaEmision);
 		assertFalse(seAlquilo);
 		
 	}
@@ -76,16 +80,21 @@ public class testGestor {
 		gestor.agregarCliente(cliente);
 		gestor.agregarCliente(clienteP);
 		
-		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente);
+		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
+		LocalDateTime fechaDevolucion = LocalDateTime.of(2025, 02, 23, 14, 30);
+		LocalDateTime fechaEmision2 = LocalDateTime.of(2025, 02, 24, 14, 30);
+		
+		
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision);
 		assertTrue(seAlquilo);
 		
-		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP, fechaEmision);
 		assertFalse(seAlquilo);
 		
-		Boolean seDevolvio = gestor.devolverDisco(pelicula, cliente);
+		Boolean seDevolvio = gestor.devolverDisco(pelicula, cliente, fechaDevolucion);
 		assertTrue(seDevolvio);
 		
-		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP, fechaEmision2);
 		assertTrue(seAlquilo);
 		
 	}
@@ -109,8 +118,9 @@ public class testGestor {
 		gestor.agregarDisco(pelicula);
 		
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
 		
-		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente);
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision);
 		assertFalse(seAlquilo);
 		
 		Boolean seVendio = gestor.venderDisco(pelicula, cliente);
@@ -156,6 +166,62 @@ public class testGestor {
 	
 	@Test
 	public void dadoQueExisteUnGestorSiUnClienteTieneMasDe3DevolucionesTardeQuedaBloqueadoEnLaTienda() {
+		Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		
+		gestor.agregarDisco(pelicula);
+		
+		Cliente cliente = new Cliente(123, "Sofia", "Gandulfo");
+		gestor.agregarCliente(cliente);
+		
+		LocalDateTime fechaEmision1 = LocalDateTime.of(2025, 02, 20, 14, 30);
+		
+		gestor.alquilarDisco(pelicula, cliente, fechaEmision1);
+		
+		LocalDateTime fechaDevolucion1 = LocalDateTime.of(2025, 02, 29, 12, 00);
+		
+		gestor.devolverDisco(pelicula, cliente, fechaDevolucion1);
+		
+		Integer cantidadDeStikesObtenidos = cliente.getStrike();
+		Integer cantidadDeStrikesEsperados = 1;
+		
+		assertEquals(cantidadDeStrikesEsperados, cantidadDeStikesObtenidos);
+		
+		LocalDateTime fechaEmision2 = LocalDateTime.of(2025, 03, 01, 10, 30);
+		
+		gestor.alquilarDisco(pelicula, cliente, fechaEmision2);
+		
+		LocalDateTime fechaDevolucion2 = LocalDateTime.of(2025, 03, 9, 23, 00);
+		
+		gestor.devolverDisco(pelicula, cliente, fechaDevolucion2);
+		
+		cantidadDeStikesObtenidos = cliente.getStrike();
+		cantidadDeStrikesEsperados = 2;
+		
+		assertEquals(cantidadDeStrikesEsperados, cantidadDeStikesObtenidos);
+		
+		LocalDateTime fechaEmision3 = LocalDateTime.of(2025, 04, 01, 10, 30);
+		
+		gestor.alquilarDisco(pelicula, cliente, fechaEmision3);
+		
+		LocalDateTime fechaDevolucion3 = LocalDateTime.of(2025, 04, 9, 23, 00);
+		
+		gestor.devolverDisco(pelicula, cliente, fechaDevolucion3);
+		
+		cantidadDeStikesObtenidos = cliente.getStrike();
+		cantidadDeStrikesEsperados = 3;
+		
+		assertEquals(cantidadDeStrikesEsperados, cantidadDeStikesObtenidos);
+		
+
+		LocalDateTime fechaEmision4 = LocalDateTime.of(2025, 05, 01, 10, 30);
+		
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision4);
+		
+		assertFalse(seAlquilo);
+		
+		Boolean estaBloqueado = cliente.estaBloqueado();
+		
+		assertTrue(estaBloqueado);
 		
 	}
 }
