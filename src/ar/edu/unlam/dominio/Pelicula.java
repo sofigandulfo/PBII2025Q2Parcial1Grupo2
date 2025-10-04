@@ -7,5 +7,7 @@ public class Pelicula extends Disco {
 		super(nombre,precioVenta);
 		
 	}
-	
+	public String getTipo(){
+		return "Pelicula";
+	}
 }

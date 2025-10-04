@@ -5,5 +5,7 @@ public class Programa extends Disco {
 	public Programa(String nombre, String version, Double precioVenta, Double precioAlquiler) {
 		super(nombre,precioVenta);
 	}
-
+	public String getTipo(){
+		return "Programa";
+	}
 }

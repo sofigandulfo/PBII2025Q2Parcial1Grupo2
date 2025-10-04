@@ -45,11 +45,11 @@ public class Gestor {
 
 
 	public Boolean alquilarDisco(Disco disco, Cliente cliente, LocalDateTime fechaEmision) {
-		if (disco.getEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
+		if (disco.obtenerEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
 			Operacion nuevo = new Alquiler (cliente, disco, fechaEmision);
 			Boolean seAgrego = this.operaciones.add(nuevo);
 			if(seAgrego) {
-				disco.setEstaDisponible(false);
+				disco.marcarComoNoDisponible();;
 				return true;
 			}
 		}
