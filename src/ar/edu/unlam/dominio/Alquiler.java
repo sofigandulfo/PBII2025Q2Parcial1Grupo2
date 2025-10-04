@@ -12,19 +12,5 @@ public class Alquiler extends Operacion {
 
 	}
 
-	public Boolean alquilarProducto(Cliente cliente, Disco disco, LocalDateTime fechaEmision, Double precio) {
-		if (disco.getEstaDisponible && disco instanceof Alquilable) {
-			if (cliente instanceof ClienteNormal) {
-				this.fechaVencimiento = getFechaEmision().plusDays(5);
-			} else {
-				this.fechaVencimiento = getFechaEmision().plusDays(7);
-			}
-			return true;
-		}
-		return false;
-	}
 
-	public Double devolucion(Cliente cliente, Disco disco, LocalDateTime fechaDevolucion) {
-		
-	}
 }
