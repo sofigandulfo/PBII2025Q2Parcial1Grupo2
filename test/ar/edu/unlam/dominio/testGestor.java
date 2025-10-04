@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,10 +58,12 @@ public class testGestor {
 		gestor.agregarCliente(cliente);
 		gestor.agregarCliente(clienteP);
 		
-		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente);
+		LocalDateTime fechaEmision = LocalDateTime.now();
+		
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision);
 		assertTrue(seAlquilo);
 		
-		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP, fechaEmision);
 		assertFalse(seAlquilo);
 		
 	}
@@ -76,16 +80,16 @@ public class testGestor {
 		gestor.agregarCliente(cliente);
 		gestor.agregarCliente(clienteP);
 		
-		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente);
+		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision);
 		assertTrue(seAlquilo);
 		
-		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP, fechaEmision);
 		assertFalse(seAlquilo);
 		
 		Boolean seDevolvio = gestor.devolverDisco(pelicula, cliente);
 		assertTrue(seDevolvio);
 		
-		seAlquilo = gestor.alquilarDisco(pelicula, clienteP);
+		seAlquilo = gestor.alquilarDisco(pelicula, clienteP, fechaEmision);
 		assertTrue(seAlquilo);
 		
 	}
