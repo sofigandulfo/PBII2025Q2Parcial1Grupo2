@@ -1,13 +1,16 @@
 package ar.edu.unlam.dominio;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 public class Gestor {
 	
 	private HashSet<Cliente> clientes;
+	private HashSet<Operacion> operaciones;
 	
 	public Gestor() {
 		this.clientes = new HashSet<>();
+		this.operaciones = new HashSet<>();
 	}
 	
 	
@@ -37,6 +40,49 @@ public class Gestor {
 		}
 		return false;
 	}
+
+
+
+
+	public Boolean alquilarDisco(Disco disco, Cliente cliente, LocalDateTime fechaEmision) {
+		if (disco.getEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
+			Operacion nuevo = new Alquiler (cliente, disco, fechaEmision);
+			Boolean seAgrego = this.operaciones.add(nuevo);
+			if(seAgrego) {
+				disco.setEstaDisponible(false);
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	public Alquiler encontrarDiscoAlquilado(Disco disco, Cliente cliente) {
+		for(Operacion operacion : operaciones) {
+			if(operacion instanceof Alquiler) {
+				Alquiler alquiler = (Alquiler) operacion;
+				if(alquiler.getDisco().equals(disco) && alquiler.getCliente().equals(cliente) && alquiler.getFechaDevolucion() == null) {
+					return alquiler;
+				}
+			}
+		}
+		return null;
+	}
+
+	// chicos les aviso q esta es la base del metodo nomas 
+	public Boolean devolverDisco(Disco disco, Cliente cliente, LocalDateTime fechaDevolucion3) {
+		Alquiler discoAlquilado = encontrarDiscoAlquilado(disco, cliente);
+		
+		if(discoAlquilado != null) {
+			
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	
 
 }

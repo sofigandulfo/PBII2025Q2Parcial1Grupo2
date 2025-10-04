@@ -2,18 +2,18 @@ package ar.edu.unlam.dominio;
 
 public class ClientePremium extends Cliente {
 
-	private Integer descuento;
+	private Double descuento;
 
-	public ClientePremium(Integer dni, String nombre, String apellido, Integer descuento) {
+	public ClientePremium(Integer dni, String nombre, String apellido, Double descuento) {
 		super(dni, nombre, apellido);
 		this.descuento = descuento; 
 	}
 
-	public Integer getDescuento() {
-		return  descuento / 100;
+	public Double getDescuento() {
+		return  descuento / 100.0;
 	}
 
-	public void setDescuento(Integer descuento) {
+	public void setDescuento(Double descuento) {
 		this.descuento = descuento;
 	}
 	
