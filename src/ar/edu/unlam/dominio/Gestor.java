@@ -1,5 +1,6 @@
 package ar.edu.unlam.dominio;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 public class Gestor {
@@ -34,6 +35,17 @@ public class Gestor {
 			if(client.equals(cliente)) {
 				return true;
 			}
+		}
+		return false;
+	}
+
+
+
+
+	public Boolean alquilarDisco(Disco disco, Cliente cliente, LocalDateTime fechaEmision) {
+		if (disco.getEstaDisponible() && estaElClienteRegistrado(cliente) && estaElClienteBloqueado(cliente)==false) {
+			Alquiler nuevo = new Alquiler (cliente, disco, fechaEmision);
+			return true;
 		}
 		return false;
 	}

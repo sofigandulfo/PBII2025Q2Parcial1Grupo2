@@ -1,0 +1,22 @@
+/bin/
+# Archivos compilados de Java
+*.class
+# Directorios de compilación
+/bin/
+bin/
+build/
+out/
+# JARs, WARs, EARs
+*.jar
+*.war
+*.ear
+# Archivos temporales de IDE
+*.log
+*.tmp
+# Eclipse
+.project
+.classpath
+.settings/
+# por si acaso IntelliJ IDEA
+*.iml
+.idea/

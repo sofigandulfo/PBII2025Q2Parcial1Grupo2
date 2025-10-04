@@ -80,11 +80,13 @@ public class testGestor {
 		gestor.agregarCliente(cliente);
 		gestor.agregarCliente(clienteP);
 		
+
 		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
 		LocalDateTime fechaDevolucion = LocalDateTime.of(2025, 02, 23, 14, 30);
 		LocalDateTime fechaEmision2 = LocalDateTime.of(2025, 02, 24, 14, 30);
 		
 		
+
 		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision);
 		assertTrue(seAlquilo);
 		
@@ -94,7 +96,9 @@ public class testGestor {
 		Boolean seDevolvio = gestor.devolverDisco(pelicula, cliente, fechaDevolucion);
 		assertTrue(seDevolvio);
 		
+
 		seAlquilo = gestor.alquilarDisco(pelicula, clienteP, fechaEmision2);
+
 		assertTrue(seAlquilo);
 		
 	}
