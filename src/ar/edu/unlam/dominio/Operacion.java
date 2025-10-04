@@ -7,12 +7,14 @@ private Cliente cliente;
 private LocalDateTime fechaEmision;
 private Disco disco;
 private Integer codigo;
-private static Integer proximoCodigo = 1;
+private static Integer contadorCodigo = 0;
 
-public Operacion (Cliente cliente, Disco disco, LocalDateTime fechaEmision) {
+public Operacion (Cliente cliente, Disco disco, LocalDateTime fechaEmision, Double precio) {
 	this.cliente =cliente;
 	this.disco = disco;
 	this.fechaEmision = fechaEmision;
+	contadorCodigo++;
+	this.codigo = contadorCodigo;
 }
 
 public Cliente getCliente() {

@@ -7,10 +7,9 @@ public class Alquiler extends Operacion {
 	private LocalDateTime fechaDevolucion;
 	private Double recargo;
 
-	public Alquiler(Cliente cliente, Disco disco, LocalDateTime fechaEmision) {
-		super(cliente, disco, fechaEmision);
-
+	public Alquiler(Cliente cliente, Disco disco, LocalDateTime fechaEmision, Double precio) {
+		super(cliente, disco, fechaEmision, precio);
+	
 	}
-
-
+	
 }

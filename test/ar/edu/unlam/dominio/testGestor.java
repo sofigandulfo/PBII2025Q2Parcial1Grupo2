@@ -53,7 +53,7 @@ public class testGestor {
 		gestor.agregarDisco(pelicula);
 		
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
-		Cliente clienteP = new ClientePremium(456, "Jorge", "Jorgelin", 10);
+		Cliente clienteP = new ClientePremium(456, "Jorge", "Jorgelin", 10.0);
 	
 		gestor.agregarCliente(cliente);
 		gestor.agregarCliente(clienteP);
@@ -75,7 +75,7 @@ public class testGestor {
 		gestor.agregarDisco(pelicula);
 		
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
-		Cliente clienteP = new ClientePremium(456, "Jorge", "Jorgelin", 10);
+		Cliente clienteP = new ClientePremium(456, "Jorge", "Jorgelin", 10.0);
 		
 		gestor.agregarCliente(cliente);
 		gestor.agregarCliente(clienteP);
@@ -106,7 +106,7 @@ public class testGestor {
 	@Test 
 	public void dadoQueExisteUnGestorNoSePuedenRegistrarDosClientesConElMismoDNI() {
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
-		Cliente cliente2 = new ClientePremium(123, "Jorge", "Jorgelin", 10);
+		Cliente cliente2 = new ClientePremium(123, "Jorge", "Jorgelin", 10.0);
 		
 		Boolean seRegistro = gestor.agregarCliente(cliente);
 		assertTrue(seRegistro);
@@ -137,7 +137,7 @@ public class testGestor {
 		
 		gestor.agregarDisco(pelicula);
 		
-		Cliente clientePremium = new ClientePremium(123, "Sofia", "Gandulfo", 10);
+		Cliente clientePremium = new ClientePremium(123, "Sofia", "Gandulfo", 10.0);
 		gestor.agregarCliente(clientePremium);
 		
 		gestor.venderDisco(pelicula, clientePremium);
@@ -155,7 +155,7 @@ public class testGestor {
 		
 		gestor.agregarDisco(pelicula);
 		
-		Cliente cliente = new Cliente(123, "Sofia", "Gandulfo");
+		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
 		gestor.agregarCliente(cliente);
 		
 		gestor.venderDisco(pelicula, cliente);
@@ -174,7 +174,7 @@ public class testGestor {
 		
 		gestor.agregarDisco(pelicula);
 		
-		Cliente cliente = new Cliente(123, "Sofia", "Gandulfo");
+		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
 		gestor.agregarCliente(cliente);
 		
 		LocalDateTime fechaEmision1 = LocalDateTime.of(2025, 02, 20, 14, 30);
@@ -216,16 +216,30 @@ public class testGestor {
 		
 		assertEquals(cantidadDeStrikesEsperados, cantidadDeStikesObtenidos);
 		
-
-		LocalDateTime fechaEmision4 = LocalDateTime.of(2025, 05, 01, 10, 30);
-		
-		Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision4);
-		
-		assertFalse(seAlquilo);
-		
 		Boolean estaBloqueado = cliente.estaBloqueado();
 		
 		assertTrue(estaBloqueado);
 		
 	}
+	
+	
+	
+	 @Test
+	 public void dadoQueExisteUnGestorSiUnClienteEstaBloqueadoNoPuedeAlquilar() {
+		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		 
+		 cliente.setStrike(3);
+		 
+		 gestor.agregarCliente(cliente);
+		 
+		 Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		 gestor.agregarDisco(pelicula);
+		 
+		 LocalDateTime fechaEmision= LocalDateTime.of(2025, 3, 10, 14, 30);
+		 
+		 Boolean seAlquilo = gestor.alquilarDisco(pelicula, cliente, fechaEmision);
+		 
+		 assertFalse(seAlquilo);
+	 
+	 }
 }
