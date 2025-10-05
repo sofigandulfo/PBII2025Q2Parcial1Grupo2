@@ -1,12 +1,14 @@
 package ar.edu.unlam.dominio;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Gestor {
 	
 	private HashSet<Cliente> clientes;
 	private HashSet<Operacion> operaciones;
+	private ArrayList<Disco> discos;
 	
 	public Gestor() {
 		this.clientes = new HashSet<>();
@@ -77,6 +79,27 @@ public class Gestor {
 			return true;
 		}
 		return false;
+	}
+
+
+
+
+	public Boolean agregarDisco(Disco disco) {
+		return this.discos.add(disco);
+	}
+
+
+
+
+	public Double venderDisco(Disco disco, Cliente cliente,LocalDateTime fechaEmision) {
+		if (disco.obtenerEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
+			Operacion venta = new Venta(disco, cliente, fechaEmision);
+			this.operaciones.add(venta);
+			this.discos.remove(disco);
+			return ((Venta)venta).obtenerPrecioFinal();
+		}
+		
+		return null;
 	}
 	
 	

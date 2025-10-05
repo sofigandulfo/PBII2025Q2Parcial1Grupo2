@@ -242,6 +242,43 @@ public class testGestor {
 		 assertFalse(seAlquilo);
 	 
 	 }
-
+	 
+	 @Test
+	 public void dadoQueTengoUnAlquilerAlDevolverlaObtendoElPrecioFinalConRecargos() {
+		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		 gestor.agregarCliente(cliente);
+		 
+		 Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		 gestor.agregarDisco(pelicula);
+		 
+		 LocalDateTime fechaEmision= LocalDateTime.of(2025, 3, 10, 14, 30);
+		 gestor.alquilarDisco(pelicula, cliente, fechaEmision);
+		 
+		 LocalDateTime fechaDevolucion= LocalDateTime.of(2025, 11, 10, 14, 30);
+		 gestor.devolverDisco(pelicula, cliente, fechaDevolucion);
+		 
+		 Alquiler alquiler = gestor.encontrarDiscoAlquilado(pelicula, cliente);
+		 
+		 Double precioEsperado=4250D;
+		 Double precioObtenido=alquiler.getPrecioFinal();
+		 
+		 assertEquals(precioEsperado,precioObtenido);
+	 }
+	 
+	 @Test
+	 
+	 public void dadoQueTengoUnDiscoAlVenderloObtengoSuPrecioFinal() {
+		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		 gestor.agregarCliente(cliente);
+		 
+		 Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		 gestor.agregarDisco(pelicula);
+		 
+		 LocalDateTime fechaEmision= LocalDateTime.of(2025, 3, 10, 14, 30);
+		 Double precioObtenido = gestor.venderDisco(pelicula, cliente, fechaEmision);	 
+		 Double precioEsperado=2000D;
+		 
+		 assertEquals(precioEsperado,precioObtenido);
+	 }
 	 
 }
