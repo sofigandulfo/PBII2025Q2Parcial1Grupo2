@@ -11,8 +11,21 @@ public abstract class Disco {
 		this.precioDeVenta = precioDeVenta;
 		this.estaDisponible=true;
 	}
-	public boolean estaDisponible() {
+	
+	public boolean obtenerEstaDisponible() {
 		return this.estaDisponible;
 	}
+	public void marcarComoNoDisponible() {
+		this.estaDisponible = false;
+	}
+	protected abstract String getTipo();
 
+	public double getPrecioVenta() {
+		return this.precioDeVenta;
+	}
+
+	public void marcarComoDisponible() {
+		this.estaDisponible=true;
+		
+	}
 }

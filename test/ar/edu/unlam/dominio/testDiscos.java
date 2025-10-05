@@ -1,6 +1,8 @@
 package ar.edu.unlam.dominio;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -19,7 +21,7 @@ public class testDiscos {
 		
 		Disco album = new Musica(nombre,autor,genero,cantidadDeCanciones,precioDeVenta);
 		
-		assertTrue(album.estaDisponible());
+		assertTrue(album.obtenerEstaDisponible());
 		
 	}
 	@Test
@@ -35,10 +37,8 @@ public class testDiscos {
 		Disco pelicula = new Pelicula(nombre, genero, anio,director,duracion,precioVenta,precioAlquiler);
 		
 
-		assertTrue(pelicula.estaDisponible());
+		assertTrue(pelicula.obtenerEstaDisponible());
 	}
-	// juego: nombre, consola, precio venta 
-		//prog: nombre del prog, version precio venta, precio alquiler
 	@Test
 	public void dadoQueUnDiscoNuevoDeJuegoDebeEstarDisponibleParaSuUso() {
 		String nombre = "Crash";
@@ -47,7 +47,7 @@ public class testDiscos {
 		
 		Disco juego = new Juego(nombre, consola,precioVenta);
 		
-		assertTrue(juego.estaDisponible());
+		assertTrue(juego.obtenerEstaDisponible());
 	}
 	
 	@Test
@@ -59,7 +59,73 @@ public class testDiscos {
 		
 		Disco programa = new Programa(nombre,version,precioVenta,precioAlquiler);
 		
-		assertTrue(programa.estaDisponible());
+		assertTrue(programa.obtenerEstaDisponible());
 	}
+	@Test
+	public void dadoQueNecesitoElPrecioDeVentaDeUnDisco() {
+		
+		Disco juego = new Juego("Crash", Consola.XBOX, 500.0); 
+		
+		
+		Double valorEsperado = 500.0;
+		Double valorObtenido = juego.getPrecioVenta();
+		
+		assertEquals(valorEsperado,valorObtenido);
+		
+	}
+	@Test
+	public void dadoQueUnDiscoDebeDejarDeEstarDisponibleSiSeAlquilaOSeVende() {
+	Disco juego = new Juego("Crash", Consola.XBOX, 500.0); 
+	
+	juego.marcarComoNoDisponible();
+	
+	boolean valorEsperado = false;
+	boolean valorObtenido = juego.obtenerEstaDisponible();
+	
+	assertEquals(valorEsperado,valorObtenido);
+	
+	}
+	@Test
+	public void dadoQueUnDiscoDebeEstarDisponibleSiSeDevuelve() {
+	Disco juego = new Juego("Crash", Consola.XBOX, 500.0); 
+	
+
+	juego.marcarComoNoDisponible();
+	juego.marcarComoDisponible();
+	
+	boolean valorEsperado = true;
+	boolean valorObtenido = juego.obtenerEstaDisponible();
+	
+	assertEquals(valorEsperado,valorObtenido);
+	}
+	
+	@Test
+	public void dadoQueSeNecesitaObtenerElTipoDeDisco() {
+		
+		Disco peli = new Pelicula("Back to the future", GeneroPelicula.CIENCIA_FICCION, 1985, "Robert Zemeckis", 116, 3000.0, 500.0); 
+		Disco juego = new Juego("Crash", Consola.XBOX, 500.0); 
+		Disco musica = new Musica("Back in Black", "AC/DC", GeneroMusica.ROCK, 10, 5000.0);
+		Disco programa = new Programa("Visual Studio Code", "1.5", 2000.0, 300.0 ); 
+		
+		
+		String valorEsperado = "Pelicula";
+		String valorObtenido = peli.getTipo();
+		assertEquals(valorEsperado,valorObtenido);
+		
+		valorEsperado = "Juego";
+		valorObtenido = juego.getTipo();
+		assertEquals(valorEsperado,valorObtenido);
+		
+		valorEsperado = "Musica";
+		valorObtenido = musica.getTipo();
+		assertEquals(valorEsperado,valorObtenido);
+		
+		
+		valorEsperado = "Programa";
+		valorObtenido = programa.getTipo();
+		assertEquals(valorEsperado,valorObtenido);
+	}
+	
+	
 	
 }

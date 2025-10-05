@@ -7,7 +7,9 @@ public class Musica extends Disco {
 		super(nombre,precioDeVenta);
 		
 	}
-
+	public String getTipo(){
+		return "Musica";
+	}
 
 
 }

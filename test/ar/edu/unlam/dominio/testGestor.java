@@ -242,4 +242,6 @@ public class testGestor {
 		 assertFalse(seAlquilo);
 	 
 	 }
+
+	 
 }
