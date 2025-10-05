@@ -9,6 +9,10 @@ public class Alquiler extends Operacion {
 	private Double recargo;
 	private Integer plazoAlquiler;
 
+	public LocalDateTime getFechaDevolucion() {
+		return fechaDevolucion;
+	}
+
 	public Alquiler(Cliente cliente, Disco disco, LocalDateTime fechaEmision) {
 		super(cliente, disco, fechaEmision);
 		this.plazoAlquiler = cliente.getPlazoAlquiler();
@@ -28,12 +32,22 @@ public class Alquiler extends Operacion {
 
 	public Double calcularRecargo(LocalDateTime fechaDevolucion) {
 		Integer diasAtrasados = (int)ChronoUnit.DAYS.between(fechaVencimiento, fechaDevolucion);
-		return getDisco().obtenerPrecioAlquilerPorDiaAtrasado() * diasAtrasados;
+		return ((Pelicula)getDisco()).obtenerPrecioAlquilerPorDiaAtrasado() * diasAtrasados;
 		
 	}
 
-	public Double calcularPrecioFinal() {
-		//se calculan los dias entre la emision y la devolucion y se le suma el recargo calcularRecargo()
+	public Double calcularPrecioFinal( ) {
+		Double precioFinal;
+		Integer diasAlquilados=(int)ChronoUnit.DAYS.between(super.getFechaEmision(), fechaDevolucion);
+		
+		if(diasAlquilados>this.plazoAlquiler) {		
+			precioFinal=this.plazoAlquiler*((Pelicula)getDisco()).obtenerPrecioAlquilerPorDia()+this.recargo;
+		}else {
+			precioFinal=diasAlquilados*((Pelicula)getDisco()).obtenerPrecioAlquilerPorDia();
+		}
+		
+		return precioFinal;
+		
 	}
 	
 }
