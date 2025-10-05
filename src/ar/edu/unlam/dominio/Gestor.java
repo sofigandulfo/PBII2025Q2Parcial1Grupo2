@@ -45,11 +45,11 @@ public class Gestor {
 
 
 	public Boolean alquilarDisco(Disco disco, Cliente cliente, LocalDateTime fechaEmision) {
-		if (disco.getEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
+		if (disco.obtenerEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false && disco instanceof Alquilable) {
 			Operacion nuevo = new Alquiler (cliente, disco, fechaEmision);
 			Boolean seAgrego = this.operaciones.add(nuevo);
 			if(seAgrego) {
-				disco.setEstaDisponible(false);
+				disco.marcarComoNoDisponible();;
 				return true;
 			}
 		}
@@ -70,15 +70,12 @@ public class Gestor {
 	}
 
 	// chicos les aviso q esta es la base del metodo nomas 
-	public Boolean devolverDisco(Disco disco, Cliente cliente, LocalDateTime fechaDevolucion3) {
-		Alquiler discoAlquilado = encontrarDiscoAlquilado(disco, cliente);
-		
-		if(discoAlquilado != null) {
-			
-			
+	public Boolean devolverDisco(Disco disco, Cliente cliente, LocalDateTime fechaDevolucion) {
+		Alquiler alquiler = encontrarDiscoAlquilado(disco, cliente);
+		if(alquiler != null && !fechaDevolucion.isBefore(alquiler.getFechaEmision())) { //no se puede devolver si la fecha de devolucion es anterior a la fecha de emision del alquiler
+			alquiler.devolverDisco(fechaDevolucion);
 			return true;
 		}
-		
 		return false;
 	}
 	

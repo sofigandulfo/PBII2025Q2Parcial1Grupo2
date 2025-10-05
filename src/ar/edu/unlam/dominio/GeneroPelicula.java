@@ -1,5 +1,7 @@
 package ar.edu.unlam.dominio;
 
 public enum GeneroPelicula {
-SUSPENSO;
+SUSPENSO,
+TERROR,CIENCIA_FICCION,
+ANIMACION,COMEDIA;
 }

@@ -1,5 +1,5 @@
 package ar.edu.unlam.dominio;
 
 public enum Consola {
-PLAY_STATION;
+PLAY_STATION,XBOX,NINTENDO;
 }

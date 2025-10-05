@@ -6,5 +6,7 @@ public class Juego extends Disco {
 		super(nombre,precioVenta);
 		
 	}
-	
+	public String getTipo(){
+		return "Juego";
+	}
 }
