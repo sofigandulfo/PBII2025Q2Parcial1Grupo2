@@ -342,6 +342,20 @@ public class testGestor {
 			assertEquals(strikesEsperados, strikesObtenido);
 
 	 }
+	 @Test
+	 public void dadoQueExisteUnGestorYSeNecesitaSaberSiUnClienteEstaRegistrado(){
+		 Integer dni = 123;
+		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		 
+		gestor.agregarCliente(cliente);
+		
+		Cliente valorEsperado = cliente;
+		Cliente valorObtenido = gestor.buscarClientePorDni(dni);
+		
+		assertEquals(valorEsperado,valorObtenido);
+		
+		
+	 }
 	 
 	 @Test
 	 public void dadoQueExisteUnGestorAlConsultarSusClientesObtengoLaListaDeClientes() {

@@ -182,6 +182,13 @@ public class Gestor {
 			}
 		}
 		return coincidencias;
+	public Cliente buscarClientePorDni(Integer dni) {
+		for (Cliente cliente : clientes) {
+			if(cliente.getDni().equals(dni)) {
+				return cliente;
+			}
+		}
+		return null;
 	}
 	
 	
