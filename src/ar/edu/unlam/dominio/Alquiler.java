@@ -50,10 +50,6 @@ public class Alquiler extends Operacion {
 		
 	}
 
-	public LocalDateTime getFechaDevolucion() {
-		return fechaDevolucion;
-	}
-
 	
 	
 }

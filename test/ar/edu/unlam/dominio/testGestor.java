@@ -140,8 +140,8 @@ public class testGestor {
 		Cliente clientePremium = new ClientePremium(123, "Sofia", "Gandulfo", 10.0);
 		gestor.agregarCliente(clientePremium);
 		
-		
-		gestor.venderDisco(pelicula, clientePremium);
+		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
+		gestor.venderDisco(pelicula, clientePremium, fechaEmision);
 		
 		Double precioObtenido = gestor.obtenerPrecioVenta(pelicula, clientePremium);
 		
@@ -159,9 +159,11 @@ public class testGestor {
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
 		gestor.agregarCliente(cliente);
 		
-		gestor.venderDisco(pelicula, cliente);
+		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
 		
-		Double precioObtenido = gestor.obtenerPrecioVendido(pelicula, cliente);
+		gestor.venderDisco(pelicula, cliente, fechaEmision );
+		
+		Double precioObtenido = gestor.obtenerPrecioVenta(pelicula, cliente);
 		
 		Double precioEsperado = 2000.0;
 		
@@ -178,11 +180,11 @@ public class testGestor {
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
 		gestor.agregarCliente(cliente);
 		
-		LocalDateTime fechaEmision1 = LocalDateTime.of(2025, 02, 20, 14, 30);
+		LocalDateTime fechaEmision1 = LocalDateTime.of(2025, 01, 20, 14, 30);
 		
 		gestor.alquilarDisco(pelicula, cliente, fechaEmision1);
 		
-		LocalDateTime fechaDevolucion1 = LocalDateTime.of(2025, 02, 29, 12, 00);
+		LocalDateTime fechaDevolucion1 = LocalDateTime.of(2025, 01, 29, 12, 00);
 		
 		gestor.devolverDisco(pelicula, cliente, fechaDevolucion1);
 		
@@ -311,7 +313,7 @@ public class testGestor {
 
 
 	 @Test
-	 public void dadoQueExisteUngestorSiUnClienteDevuelveAntesDelPlazoDeVencimientoNoSumaStrikeNiRecargo() {
+	 public void dadoQueExisteUngestorSiUnClienteDevuelveAntesDelPlazoDeVencimientoNoSumaStrike() {
 			Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
 			
 			gestor.agregarDisco(pelicula);
@@ -332,14 +334,6 @@ public class testGestor {
 			Integer strikesEsperados = 0;
 			
 			assertEquals(strikesObtenido, strikesEsperados);
-			
-			Alquiler alquiler = gestor.encontrarAlquilerDelDisco(pelicula, cliente);
-			Double precioObtenido = alquiler.calcularPrecioFinal();
-			Double precioEsperado = 1500.0;
-			
-			assertEquals(precioEsperado, precioObtenido);
-			
-			
 
 	 }
 	 

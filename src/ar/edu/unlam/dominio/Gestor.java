@@ -108,14 +108,6 @@ public class Gestor {
 		return null;
 	}
 	
-	public Operacion obtenerOperacion(Disco disco, Cliente cliente) {
-		for(Operacion operacion : operaciones) {
-			if(operacion.getDisco().equals(disco) && operacion.getCliente().equals(cliente)) {
-				return operacion;
-			}
-		}
-		return null;
-	}
 	
 	
 	
