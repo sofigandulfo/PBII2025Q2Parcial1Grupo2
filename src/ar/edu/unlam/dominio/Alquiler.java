@@ -15,7 +15,7 @@ public class Alquiler extends Operacion {
 
 	public Alquiler(Cliente cliente, Disco disco, LocalDateTime fechaEmision) {
 		super(cliente, disco, fechaEmision);
-		this.plazoAlquiler = cliente.getPlazoAlquiler();
+		this.plazoAlquiler = cliente.obtenerPlazoDiasAlquiler();
 		this.fechaVencimiento = fechaEmision.plusDays(plazoAlquiler);
 		this.recargo = 0.0;
 	}
@@ -49,5 +49,7 @@ public class Alquiler extends Operacion {
 		return precioFinal;
 		
 	}
+
+	
 	
 }
