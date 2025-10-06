@@ -8,8 +8,9 @@ private LocalDateTime fechaEmision;
 private Disco disco;
 private Integer codigo;
 private static Integer contadorCodigo = 0;
+private Double precioFinal;
 
-public Operacion (Cliente cliente, Disco disco, LocalDateTime fechaEmision, Double precio) {
+public Operacion (Cliente cliente, Disco disco, LocalDateTime fechaEmision) {
 	this.cliente =cliente;
 	this.disco = disco;
 	this.fechaEmision = fechaEmision;
@@ -48,5 +49,15 @@ public Integer getCodigo() {
 public void setCodigo(Integer codigo) {
 	this.codigo = codigo;
 }
+
+public Double getPrecioFinal() {
+	return precioFinal;
+}
+
+public void setPrecioFinal(Double precioFinal) {
+	this.precioFinal = precioFinal;
+}
+
+
 	
 }

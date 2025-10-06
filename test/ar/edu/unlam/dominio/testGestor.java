@@ -140,7 +140,8 @@ public class testGestor {
 		Cliente clientePremium = new ClientePremium(123, "Sofia", "Gandulfo", 10.0);
 		gestor.agregarCliente(clientePremium);
 		
-		gestor.venderDisco(pelicula, clientePremium);
+		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
+		gestor.venderDisco(pelicula, clientePremium, fechaEmision);
 		
 		Double precioObtenido = gestor.obtenerPrecioVenta(pelicula, clientePremium);
 		
@@ -158,9 +159,11 @@ public class testGestor {
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
 		gestor.agregarCliente(cliente);
 		
-		gestor.venderDisco(pelicula, cliente);
+		LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
 		
-		Double precioObtenido = gestor.obtenerPrecioVendido(pelicula, cliente);
+		gestor.venderDisco(pelicula, cliente, fechaEmision );
+		
+		Double precioObtenido = gestor.obtenerPrecioVenta(pelicula, cliente);
 		
 		Double precioEsperado = 2000.0;
 		
@@ -169,7 +172,7 @@ public class testGestor {
 	}
 	
 	@Test
-	public void dadoQueExisteUnGestorSiUnClienteTieneMasDe3DevolucionesTardeQuedaBloqueadoEnLaTienda() {
+	public void dadoQueExisteUnGestorSiUnClienteHaceUnaDevolucionTardeSeLeSumaUnStrike() {
 		Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
 		
 		gestor.agregarDisco(pelicula);
@@ -177,11 +180,11 @@ public class testGestor {
 		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
 		gestor.agregarCliente(cliente);
 		
-		LocalDateTime fechaEmision1 = LocalDateTime.of(2025, 02, 20, 14, 30);
+		LocalDateTime fechaEmision1 = LocalDateTime.of(2025, 01, 20, 14, 30);
 		
 		gestor.alquilarDisco(pelicula, cliente, fechaEmision1);
 		
-		LocalDateTime fechaDevolucion1 = LocalDateTime.of(2025, 02, 29, 12, 00);
+		LocalDateTime fechaDevolucion1 = LocalDateTime.of(2025, 01, 29, 12, 00);
 		
 		gestor.devolverDisco(pelicula, cliente, fechaDevolucion1);
 		
@@ -200,9 +203,38 @@ public class testGestor {
 		
 		cantidadDeStikesObtenidos = cliente.getStrike();
 		cantidadDeStrikesEsperados = 2;
-		
+	
 		assertEquals(cantidadDeStrikesEsperados, cantidadDeStikesObtenidos);
+	}
+	
+	@Test
+	public void dadoQueExisteUnGestorSiUnClienteTieneMasDe3DevolucionesTardeQuedaBloqueadoEnLaTienda() {
+		Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
 		
+		gestor.agregarDisco(pelicula);
+		
+		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		gestor.agregarCliente(cliente);
+		//primero tarde
+		
+		LocalDateTime fechaEmision1 = LocalDateTime.of(2025, 02, 20, 14, 30);
+		
+		gestor.alquilarDisco(pelicula, cliente, fechaEmision1);
+		
+		LocalDateTime fechaDevolucion1 = LocalDateTime.of(2025, 02, 29, 12, 00);
+		
+		gestor.devolverDisco(pelicula, cliente, fechaDevolucion1);
+		
+		//el segundo
+		LocalDateTime fechaEmision2 = LocalDateTime.of(2025, 03, 01, 10, 30);
+		
+		gestor.alquilarDisco(pelicula, cliente, fechaEmision2);
+		
+		LocalDateTime fechaDevolucion2 = LocalDateTime.of(2025, 03, 9, 23, 00);
+		
+		gestor.devolverDisco(pelicula, cliente, fechaDevolucion2);
+		
+		// el 3
 		LocalDateTime fechaEmision3 = LocalDateTime.of(2025, 04, 01, 10, 30);
 		
 		gestor.alquilarDisco(pelicula, cliente, fechaEmision3);
@@ -211,8 +243,8 @@ public class testGestor {
 		
 		gestor.devolverDisco(pelicula, cliente, fechaDevolucion3);
 		
-		cantidadDeStikesObtenidos = cliente.getStrike();
-		cantidadDeStrikesEsperados = 3;
+		Integer cantidadDeStikesObtenidos = cliente.getStrike();
+		Integer cantidadDeStrikesEsperados = 3;
 		
 		assertEquals(cantidadDeStrikesEsperados, cantidadDeStikesObtenidos);
 		
@@ -221,8 +253,6 @@ public class testGestor {
 		assertTrue(estaBloqueado);
 		
 	}
-	
-	
 	
 	 @Test
 	 public void dadoQueExisteUnGestorSiUnClienteEstaBloqueadoNoPuedeAlquilar() {
@@ -242,4 +272,69 @@ public class testGestor {
 		 assertFalse(seAlquilo);
 	 
 	 }
+
+	 
+	 @Test
+	 public void dadoQueTengoUnAlquilerAlDevolverlaObtendoElPrecioFinalConRecargos() {
+		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		 gestor.agregarCliente(cliente);
+		 
+		 Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		 gestor.agregarDisco(pelicula);
+		 
+		 LocalDateTime fechaEmision= LocalDateTime.of(2025, 3, 10, 14, 30);
+		 gestor.alquilarDisco(pelicula, cliente, fechaEmision);
+		 
+		 LocalDateTime fechaDevolucion= LocalDateTime.of(2025, 11, 10, 14, 30);
+		 gestor.devolverDisco(pelicula, cliente, fechaDevolucion);
+		 
+		 Alquiler alquiler = gestor.encontrarAlquilerDelDisco(pelicula, cliente);
+		 
+		 Double precioEsperado=4250D;
+		 Double precioObtenido=alquiler.getPrecioFinal();
+		 
+		 assertEquals(precioEsperado,precioObtenido);
+	 }
+	 
+	 @Test
+	 public void dadoQueTengoUnDiscoAlVenderloObtengoSuPrecioFinal() {
+		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		 gestor.agregarCliente(cliente);
+		 
+		 Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		 gestor.agregarDisco(pelicula);
+		 
+		 LocalDateTime fechaEmision= LocalDateTime.of(2025, 3, 10, 14, 30);
+		 Double precioObtenido = gestor.venderDisco(pelicula, cliente, fechaEmision);	 
+		 Double precioEsperado=2000D;
+		 
+		 assertEquals(precioEsperado,precioObtenido);
+	 }
+
+
+	 @Test
+	 public void dadoQueExisteUngestorSiUnClienteDevuelveAntesDelPlazoDeVencimientoNoSumaStrike() {
+			Disco pelicula = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+			
+			gestor.agregarDisco(pelicula);
+			
+			Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+			gestor.agregarCliente(cliente);
+		
+			
+			LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
+			
+			gestor.alquilarDisco(pelicula, cliente, fechaEmision);
+			
+			LocalDateTime fechaDevolucion = LocalDateTime.of(2025, 02, 23, 15, 00);
+			
+			gestor.devolverDisco(pelicula, cliente, fechaDevolucion);
+			
+			Integer strikesObtenido = cliente.getStrike();
+			Integer strikesEsperados = 0;
+			
+			assertEquals(strikesObtenido, strikesEsperados);
+
+	 }
+	 
 }

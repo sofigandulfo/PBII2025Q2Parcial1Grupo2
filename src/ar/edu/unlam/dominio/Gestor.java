@@ -1,12 +1,14 @@
 package ar.edu.unlam.dominio;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Gestor {
 	
 	private HashSet<Cliente> clientes;
 	private HashSet<Operacion> operaciones;
+	private ArrayList<Disco> discos;
 	
 	public Gestor() {
 		this.clientes = new HashSet<>();
@@ -41,11 +43,18 @@ public class Gestor {
 		return false;
 	}
 
+	public Double obtenerPrecioAlquiler(Operacion operacion) {
+		if(operacion instanceof Alquiler) {
+			Alquiler alquiler = (Alquiler)operacion;
+			return alquiler.calcularPrecioFinal();
+		}
+		return null;
+	}
 
 
 
 	public Boolean alquilarDisco(Disco disco, Cliente cliente, LocalDateTime fechaEmision) {
-		if (disco.obtenerEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
+		if (disco.obtenerEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false && disco instanceof Alquilable) {
 			Operacion nuevo = new Alquiler (cliente, disco, fechaEmision);
 			Boolean seAgrego = this.operaciones.add(nuevo);
 			if(seAgrego) {
@@ -57,7 +66,7 @@ public class Gestor {
 	}
 
 
-	public Alquiler encontrarDiscoAlquilado(Disco disco, Cliente cliente) {
+	public Alquiler encontrarAlquilerDelDisco(Disco disco, Cliente cliente) {
 		for(Operacion operacion : operaciones) {
 			if(operacion instanceof Alquiler) {
 				Alquiler alquiler = (Alquiler) operacion;
@@ -69,18 +78,36 @@ public class Gestor {
 		return null;
 	}
 
-	// chicos les aviso q esta es la base del metodo nomas 
-	public Boolean devolverDisco(Disco disco, Cliente cliente, LocalDateTime fechaDevolucion3) {
-		Alquiler discoAlquilado = encontrarDiscoAlquilado(disco, cliente);
-		
-		if(discoAlquilado != null) {
-			
-			
+	public Boolean devolverDisco(Disco disco, Cliente cliente, LocalDateTime fechaDevolucion) {
+		Alquiler alquiler = encontrarAlquilerDelDisco(disco, cliente);
+		if(alquiler != null && !fechaDevolucion.isBefore(alquiler.getFechaEmision())) { 
+			alquiler.devolverDisco(fechaDevolucion);
 			return true;
 		}
-		
 		return false;
 	}
+
+
+
+
+	public Boolean agregarDisco(Disco disco) {
+		return this.discos.add(disco);
+	}
+
+
+
+
+	public Double venderDisco(Disco disco, Cliente cliente,LocalDateTime fechaEmision) {
+		if (disco.obtenerEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
+			Operacion venta = new Venta(disco, cliente, fechaEmision);
+			this.operaciones.add(venta);
+			this.discos.remove(disco);
+			return ((Venta)venta).obtenerPrecioFinal();
+		}
+		
+		return null;
+	}
+	
 	
 	
 	

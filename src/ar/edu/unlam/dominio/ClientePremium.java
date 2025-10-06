@@ -16,6 +16,11 @@ public class ClientePremium extends Cliente {
 	public void setDescuento(Double descuento) {
 		this.descuento = descuento;
 	}
+
+	@Override
+	public Integer obtenerPlazoDiasAlquiler() {
+		return 10;
+	}
 	
 	
 
