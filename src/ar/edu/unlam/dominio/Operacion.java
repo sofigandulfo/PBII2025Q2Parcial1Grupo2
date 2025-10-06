@@ -1,6 +1,7 @@
 package ar.edu.unlam.dominio;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public abstract class Operacion {
 private Cliente cliente;
@@ -8,8 +9,9 @@ private LocalDateTime fechaEmision;
 private Disco disco;
 private Integer codigo;
 private static Integer contadorCodigo = 0;
+private Double precioFinal;
 
-public Operacion (Cliente cliente, Disco disco, LocalDateTime fechaEmision, Double precio) {
+public Operacion (Cliente cliente, Disco disco, LocalDateTime fechaEmision) {
 	this.cliente =cliente;
 	this.disco = disco;
 	this.fechaEmision = fechaEmision;
@@ -48,5 +50,33 @@ public Integer getCodigo() {
 public void setCodigo(Integer codigo) {
 	this.codigo = codigo;
 }
+
+public Double getPrecioFinal() {
+	return precioFinal;
+}
+
+public void setPrecioFinal(Double precioFinal) {
+	this.precioFinal = precioFinal;
+}
+
+@Override
+public int hashCode() {
+	return Objects.hash(cliente, disco, fechaEmision);
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Operacion other = (Operacion) obj;
+	return Objects.equals(cliente, other.cliente) && Objects.equals(disco, other.disco)
+			&& Objects.equals(fechaEmision, other.fechaEmision);
+}
+
+
 	
 }

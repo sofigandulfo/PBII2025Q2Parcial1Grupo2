@@ -2,7 +2,7 @@ package ar.edu.unlam.dominio;
 
 import java.util.Objects;
 
-public class Cliente {
+public abstract class Cliente {
 	
 	private Integer dni;
 	private String nombre;
@@ -50,12 +50,18 @@ public class Cliente {
 	}
 	
 	public Boolean estaBloqueado() {
-		if(this.strike == 3) {
+		if(this.strike >= 3) {
 			return true;
 		}
 		else {
 			return false;
 		}
+	}
+	
+	public abstract Integer obtenerPlazoDiasAlquiler();
+	
+	public void registrarNuevoStrike() {
+		this.strike++;
 	}
 
 	@Override
@@ -68,8 +74,6 @@ public class Cliente {
 		if (this == obj)
 			return true;
 		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
 		return Objects.equals(dni, other.dni);

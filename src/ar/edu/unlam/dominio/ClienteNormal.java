@@ -6,4 +6,9 @@ public class ClienteNormal extends Cliente {
 		super(dni, nombre, apellido);
 	}
 
+	@Override
+	public Integer obtenerPlazoDiasAlquiler() {
+		return 7;
+	}
+
 }
