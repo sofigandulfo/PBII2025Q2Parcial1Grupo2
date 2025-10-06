@@ -1,5 +1,6 @@
 package ar.edu.unlam.interfaz;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import ar.edu.unlam.dominio.*;
 public class gestorInterfaz {
@@ -85,6 +86,18 @@ public class gestorInterfaz {
 	private static void opcionInvalida() {
 		mostrarMensajePorPantalla("Opcion invalida, intenta de nuevo");
 	}
+	
+	private static void imprimirListaDiscos(ArrayList<Disco> listaDiscos) {
+	    if (listaDiscos == null || listaDiscos.isEmpty()) {
+	        System.out.println("No hay discos en el sistema");
+	        return;
+	    }
+
+	    for (Disco disco : listaDiscos) {
+	        System.out.println(disco);
+	    }
+	}
+	
 	private static void alquilarDisco(Scanner teclado) {
 		mostrarMensajePorPantalla("Ingrese Nro Dni cliente: ");
 		Integer dni = teclado.nextInt();
@@ -100,16 +113,24 @@ public class gestorInterfaz {
 		Integer dni = teclado.nextInt();
 		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
 			mostrarMensajePorPantalla("Cliente registrado");
+			
+			
+			
+			
 		}
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
 		}
 	}
 	private static void venderDisco(Scanner teclado) {
+		imprimirListaDiscos(gestor.obtenerInventario());
 		mostrarMensajePorPantalla("Ingrese Nro Dni cliente: ");
 		Integer dni = teclado.nextInt();
 		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
 			mostrarMensajePorPantalla("Cliente registrado");
+			
+			imprimirListaDiscos(gestor.obtenerInventario());
+		
 		}
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
@@ -119,9 +140,10 @@ public class gestorInterfaz {
 		mostrarMensajePorPantalla("Nro Dni del cliente: ");
 		Integer clienteDniNormal = teclado.nextInt();
 		mostrarMensajePorPantalla("Nombre del cliente: ");
-		String nombreClienteNormal = teclado.next();
+		teclado.nextLine(); 
+		String nombreClienteNormal = teclado.nextLine();
 		mostrarMensajePorPantalla("Apellido del cliente: ");
-		String apellidoClienteNormal = teclado.next();
+		String apellidoClienteNormal = teclado.nextLine(); 
 		
 		if(clienteDniNormal>0 && !nombreClienteNormal.isEmpty() && !apellidoClienteNormal.isEmpty()) {
 			Cliente cliente = new ClienteNormal(clienteDniNormal,nombreClienteNormal,apellidoClienteNormal);
@@ -137,10 +159,11 @@ public class gestorInterfaz {
 	private static void agregarClientePremium(Scanner teclado, Gestor gestor) {
 		mostrarMensajePorPantalla("Nro Dni del cliente: ");
 		Integer clienteDni = teclado.nextInt();
+		teclado.nextLine(); 
 		mostrarMensajePorPantalla("Nombre del cliente: ");
-		String nombreCliente = teclado.next();
+		String nombreCliente = teclado.nextLine();
 		mostrarMensajePorPantalla("Apellido del cliente: ");
-		String apellidoCliente = teclado.next();
+		String apellidoCliente = teclado.nextLine();
 		Double descuento = 10.0;
 		
 		if(clienteDni>0 && !nombreCliente.isEmpty() && !apellidoCliente.isEmpty()) {
@@ -156,9 +179,10 @@ public class gestorInterfaz {
 	}
 	private static void agregarDiscoPrograma(Scanner teclado, Gestor gestor) {
 		mostrarMensajePorPantalla("Nombre del programa: ");
-		String nombrePrograma = teclado.next();
+		teclado.nextLine();
+		String nombrePrograma = teclado.nextLine();
 		mostrarMensajePorPantalla("Versión: ");
-		String version = teclado.next();
+		String version = teclado.nextLine();
 		mostrarMensajePorPantalla("Precio de venta: ");
 		Double precioProg = teclado.nextDouble();
 		mostrarMensajePorPantalla("Precio de alquiler: ");
@@ -178,6 +202,7 @@ public class gestorInterfaz {
 	}
 	private static void agregarDiscoJuego(Scanner teclado, Gestor gestor) {
 		mostrarMensajePorPantalla("Nombre del juego: ");
+		teclado.nextLine(); 
 		String nombreJuego = teclado.nextLine();
 		Consola consola = Consola.PLAY_STATION; 
 		mostrarMensajePorPantalla("Precio de venta: ");
@@ -196,20 +221,21 @@ public class gestorInterfaz {
 		}
 	}
 	private static void agregarDiscoPelicula(Scanner teclado, Gestor gestor) {
-		mostrarMensajePorPantalla("Nombre de la película: ");
-		String nombrePeli = teclado.next();
-		GeneroPelicula generoPeli = GeneroPelicula.SUSPENSO; 
-		mostrarMensajePorPantalla("Año: ");
-		Integer anio = teclado.nextInt();
-		teclado.nextLine();
-		mostrarMensajePorPantalla("Director: ");
-		String director = teclado.next();
-		mostrarMensajePorPantalla("Duración (min): ");
-		Integer duracion = teclado.nextInt();
-		mostrarMensajePorPantalla("Precio de venta: ");
-		Double precioVenta = teclado.nextDouble();
-		mostrarMensajePorPantalla("Precio de alquiler: ");
-		Double precioAlquiler = teclado.nextDouble();
+	    mostrarMensajePorPantalla("Nombre de la pelicula: ");
+	    teclado.nextLine(); 
+	    String nombrePeli = teclado.nextLine();
+	    GeneroPelicula generoPeli = GeneroPelicula.SUSPENSO; 
+	    mostrarMensajePorPantalla("Año: ");
+	    Integer anio = teclado.nextInt();
+	    teclado.nextLine(); 
+	    mostrarMensajePorPantalla("Director: ");
+	    String director = teclado.nextLine();
+	    mostrarMensajePorPantalla("Duracion (min): ");
+	    Integer duracion = teclado.nextInt();
+	    mostrarMensajePorPantalla("Precio de venta: ");
+	    Double precioVenta = teclado.nextDouble();
+	    mostrarMensajePorPantalla("Precio de alquiler: ");
+	    Double precioAlquiler = teclado.nextDouble();
 		
 		if (nombrePeli != null && !nombrePeli.isEmpty() &&
 		        director != null && !director.isEmpty() &&
@@ -228,9 +254,10 @@ public class gestorInterfaz {
 	}
 	private static void agregarDiscoMusica(Scanner teclado, Gestor gestor) {
 		mostrarMensajePorPantalla("Nombre del disco: ");
-		String nombre = teclado.next();
+		teclado.nextLine(); 
+		String nombre = teclado.nextLine();
 		mostrarMensajePorPantalla("Nombre del autor: ");
-		String autor = teclado.next();
+		String autor = teclado.nextLine();
 		GeneroMusica genero = GeneroMusica.POP;
 		
 		mostrarMensajePorPantalla("Numero de canciones: ");
