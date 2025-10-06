@@ -17,6 +17,25 @@ public class Musica extends Disco {
 	public String getTipo(){
 		return "Musica";
 	}
+	public String getAutor() {
+		return autor;
+	}
+	public void setAutor(String autor) {
+		this.autor = autor;
+	}
+	public GeneroMusica getGenero() {
+		return genero;
+	}
+	public void setGenero(GeneroMusica genero) {
+		this.genero = genero;
+	}
+	public Integer getCantidadDeCanciones() {
+		return cantidadDeCanciones;
+	}
+	public void setCantidadDeCanciones(Integer cantidadDeCanciones) {
+		this.cantidadDeCanciones = cantidadDeCanciones;
+	}
 
 
+	
 }

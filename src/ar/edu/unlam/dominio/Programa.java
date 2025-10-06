@@ -11,4 +11,12 @@ public class Programa extends Disco {
 	public String getTipo(){
 		return "Programa";
 	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
+	
 }
