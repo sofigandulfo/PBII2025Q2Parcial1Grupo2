@@ -120,6 +120,14 @@ public class Gestor {
 		
 		return false;
 	}
+	public Cliente buscarClientePorDni(Integer dni) {
+		for (Cliente cliente : clientes) {
+			if(cliente.getDni().equals(dni)) {
+				return cliente;
+			}
+		}
+		return null;
+	}
 	
 	
 	
