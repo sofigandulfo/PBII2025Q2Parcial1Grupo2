@@ -120,6 +120,68 @@ public class Gestor {
 		
 		return false;
 	}
+
+
+
+
+	public HashSet<Cliente> obtenerListaClientes() {
+		// TODO Auto-generated method stub
+		return this.clientes;
+	}
+
+
+
+
+	public <Tipo extends Cliente> HashSet<Cliente> obtenerListaClientesTipo(Class<Tipo> tipo) {
+		HashSet<Cliente> coincidencias = new HashSet<>();
+		for(Cliente cliente:clientes) {
+			if(tipo.isInstance(cliente)) {
+				coincidencias.add(cliente);
+			}
+		}
+		return coincidencias;
+	}
+
+
+
+
+	public ArrayList<Disco> obtenerInventario() {
+		// TODO Auto-generated method stub
+		return this.discos;
+	}
+
+
+
+
+	public  <Tipo extends Disco> ArrayList<Disco> obtenerInventarioPorTipo(Class<Tipo> tipo) {
+		ArrayList<Disco> coincidencias = new ArrayList<>();
+		for(Disco disco:discos) {
+			if(tipo.isInstance(disco)) {
+				coincidencias.add(disco);
+			}
+		}
+		return coincidencias;
+	}
+
+
+
+
+	public HashSet<Operacion> obtenerOperaciones() {
+		// TODO Auto-generated method stub
+		return operaciones;
+	}
+
+
+
+
+	public  <Tipo extends Operacion> HashSet<Operacion> obtenerOperacionesPorTipo(Class<Tipo> tipo) {
+		HashSet<Operacion> coincidencias = new HashSet<>();
+		for(Operacion operacion:operaciones) {
+			if(tipo.isInstance(operacion)) {
+				coincidencias.add(operacion);
+			}
+		}
+		return coincidencias;
 	public Cliente buscarClientePorDni(Integer dni) {
 		for (Cliente cliente : clientes) {
 			if(cliente.getDni().equals(dni)) {

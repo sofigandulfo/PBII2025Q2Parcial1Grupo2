@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -323,7 +325,7 @@ public class testGestor {
 			gestor.agregarDisco(pelicula);
 			
 			Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
-			gestor.agregarCliente(cliente);
+		
 		
 			
 			LocalDateTime fechaEmision = LocalDateTime.of(2025, 02, 20, 14, 30);
@@ -354,5 +356,162 @@ public class testGestor {
 		
 		
 	 }
+	 
+	 @Test
+	 public void dadoQueExisteUnGestorAlConsultarSusClientesObtengoLaListaDeClientes() {
+		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		gestor.agregarCliente(cliente);
+		Cliente cliente2 = new ClientePremium(321, "Jorge", "Jorgelin", 10.0);
+		gestor.agregarCliente(cliente2);
+		Cliente cliente3 = new ClienteNormal(495, "Camilo", "Sisci");
+		gestor.agregarCliente(cliente3);
+		
+		HashSet<Cliente> clientesEsperados = new HashSet<>();
+		clientesEsperados.add(cliente);
+		clientesEsperados.add(cliente2);
+		clientesEsperados.add(cliente3);
+		
+		HashSet<Cliente> clientesObtenidos = gestor.obtenerListaClientes();
+		
+		assertEquals(clientesEsperados, clientesObtenidos);
+		
+		
+		 
+	 }
+	 
+	 @Test
+	 public void dadoQueExisteUnGestorAlConsultarClientesDeUnTipoObtengoLaListaCorrecta() {
+		Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
+		gestor.agregarCliente(cliente);
+		Cliente cliente2 = new ClientePremium(321, "Jorge", "Jorgelin", 10.0);
+		gestor.agregarCliente(cliente2);
+		Cliente cliente3 = new ClienteNormal(495, "Camilo", "Sisci");
+		gestor.agregarCliente(cliente3);
+		
+		HashSet<Cliente> clientesEsperados = new HashSet<>();
+		clientesEsperados.add(cliente);
+		clientesEsperados.add(cliente3);
+		HashSet<Cliente> clientesObtenidos = gestor.obtenerListaClientesTipo(ClienteNormal.class);
+		
+		assertEquals(clientesEsperados, clientesObtenidos);
+		
+		HashSet<Cliente> clientesEsperados2 = new HashSet<>();
+		clientesEsperados2.add(cliente2);
+		HashSet<Cliente> clientesObtenidos2 = gestor.obtenerListaClientesTipo(ClientePremium.class);
+		
+		assertEquals(clientesEsperados2, clientesObtenidos2);
+	 }
+	 
+	 @Test
+	 public void dadoQueExisteUnGestorAlConsultarSuInventarioObtengoLaListaDeDiscos() {
+		Disco peli = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		Disco juego = new Juego("Crash", Consola.PLAY_STATION, 500.0); 
+		Disco musica = new Musica("Miranda es imposible", "Miranda", GeneroMusica.POP, 9, 1500.0);
+		Disco programa = new Programa("Photoshop", "2.1.5", 2000.0, 300.0 ); 	
+		gestor.agregarDisco(peli);	
+		gestor.agregarDisco(juego);	
+		gestor.agregarDisco(musica);
+		gestor.agregarDisco(programa);
+		
+		ArrayList<Disco> discosEsperados = new ArrayList<>();
+		discosEsperados.add(peli);
+		discosEsperados.add(juego);
+		discosEsperados.add(musica);
+		discosEsperados.add(programa);
+		
+		ArrayList<Disco> discosObtenidos = gestor.obtenerInventario();
+		
+		assertEquals(discosEsperados, discosObtenidos);
+	 }
+	 
+	 @Test
+	 public void dadoQueExisteUnGestorAlConsultarPorLosDiscosDeUnTipoObtengoLaListaCorrecta() {
+		Disco peli = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		Disco peli2 = new Pelicula("Nueve Reinas", GeneroPelicula.SUSPENSO, 2000, "Fabian Bielinsky", 115, 1500.0, 300.0);
+		Disco juego = new Juego("Crash", Consola.PLAY_STATION, 500.0); 
+		Disco juego2 = new Juego("Mario", Consola.NINTENDO, 500.0); 
+		Disco juego3 = new Juego("Halo", Consola.XBOX, 500.0); 
+		Disco musica = new Musica("Miranda es imposible", "Miranda", GeneroMusica.POP, 9, 1500.0);
+		Disco programa = new Programa("Photoshop", "2.1.5", 2000.0, 300.0 ); 	
+		gestor.agregarDisco(peli);
+		gestor.agregarDisco(peli2);
+		gestor.agregarDisco(juego);	
+		gestor.agregarDisco(juego2);	
+		gestor.agregarDisco(juego3);	
+		gestor.agregarDisco(musica);
+		gestor.agregarDisco(programa);
+		
+		ArrayList<Disco> pelisEsperadas = new ArrayList<>();
+		pelisEsperadas.add(peli);
+		pelisEsperadas.add(peli2);
+		ArrayList<Disco> pelisObtenidas = gestor.obtenerInventarioPorTipo(Pelicula.class);
+		
+		assertEquals(pelisEsperadas, pelisObtenidas);
+		
+		ArrayList<Disco> juegosEsperados = new ArrayList<>();
+		juegosEsperados.add(juego);
+		juegosEsperados.add(juego2);
+		juegosEsperados.add(juego3);
+		ArrayList<Disco> juegosObtenidos = gestor.obtenerInventarioPorTipo(Juego.class);
+		
+		assertEquals(juegosEsperados, juegosObtenidos);
+	 }
+	 
+	 @Test
+	 public void dadoQueExisteUnGestorAlConsultarPorLasOperacionesRealizadasbtengoLaListaCompleta() {
+		Disco peli = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		Disco peli2 = new Pelicula("Nueve Reinas", GeneroPelicula.SUSPENSO, 2000, "Fabian Bielinsky", 115, 1500.0, 300.0);
+		Disco juego = new Juego("Crash", Consola.PLAY_STATION, 500.0); 
+		gestor.agregarDisco(peli);
+		gestor.agregarDisco(peli2);
+		gestor.agregarDisco(juego);
+		Cliente cliente = new ClienteNormal(495, "Camilo", "Sisci");
+		gestor.agregarCliente(cliente);
+		LocalDateTime fechaEmision= LocalDateTime.of(2025, 10, 6, 16, 58);
+		gestor.alquilarDisco(peli, cliente, fechaEmision);
+		gestor.alquilarDisco(peli2, cliente, fechaEmision);
+		gestor.venderDisco(juego, cliente, fechaEmision);
+		
+		HashSet<Operacion> operacionesObtenidas = gestor.obtenerOperaciones();
+		Integer cantEsperada = 3;
+		
+		assertEquals(cantEsperada,(Integer)operacionesObtenidas.size());
+		
+		
+	 }
+	 
+	 @Test
+	 public void dadoQueExisteUnGestorAlConsultarPorLasOperacionesDeUnTipoRealizadasbtengoLaListaCorrespondiente() {
+		Disco peli = new Pelicula("Coherence", GeneroPelicula.SUSPENSO, 2014, "James Ward Byrkit", 120, 2000.0, 500.0); 
+		Disco peli2 = new Pelicula("Nueve Reinas", GeneroPelicula.SUSPENSO, 2000, "Fabian Bielinsky", 115, 1500.0, 300.0);
+		Disco juego = new Juego("Crash", Consola.PLAY_STATION, 500.0); 
+		Disco juego2 = new Juego("Mario", Consola.NINTENDO, 500.0); 
+		Disco juego3 = new Juego("Halo", Consola.XBOX, 500.0); 
+		gestor.agregarDisco(peli);
+		gestor.agregarDisco(peli2);
+		gestor.agregarDisco(juego);
+		gestor.agregarDisco(juego2);
+		gestor.agregarDisco(juego3);
+		Cliente cliente = new ClienteNormal(495, "Camilo", "Sisci");
+		gestor.agregarCliente(cliente);
+		LocalDateTime fechaEmision= LocalDateTime.of(2025, 10, 6, 16, 58);
+		gestor.alquilarDisco(peli, cliente, fechaEmision);
+		gestor.alquilarDisco(peli2, cliente, fechaEmision);
+		gestor.venderDisco(juego, cliente, fechaEmision);
+		gestor.venderDisco(juego2, cliente, fechaEmision);
+		gestor.venderDisco(juego3, cliente, fechaEmision);
+		
+		HashSet<Operacion> operacionesObtenidas = gestor.obtenerOperacionesPorTipo(Alquiler.class);
+		Integer cantEsperada = 2;
+		
+		assertEquals(cantEsperada,(Integer)operacionesObtenidas.size());
+		
+		operacionesObtenidas = gestor.obtenerOperacionesPorTipo(Venta.class);
+		cantEsperada = 3;
+		
+		assertEquals(cantEsperada,(Integer)operacionesObtenidas.size());
+	 }
+	 
+	 
 	 
 }
