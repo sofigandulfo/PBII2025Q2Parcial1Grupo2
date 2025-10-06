@@ -9,7 +9,7 @@ public class Juego extends Disco {
 		
 	}
 	public String getTipo(){
-		return "Juego modificado desde la rama desarrollo";
+		return "Juego";
 	}
 	public Consola getConsola() {
 		return consola;
