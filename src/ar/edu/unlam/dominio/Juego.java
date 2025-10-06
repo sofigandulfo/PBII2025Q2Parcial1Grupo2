@@ -11,4 +11,12 @@ public class Juego extends Disco {
 	public String getTipo(){
 		return "Juego";
 	}
+	public Consola getConsola() {
+		return consola;
+	}
+	public void setConsola(Consola consola) {
+		this.consola = consola;
+	}
+	
+	
 }

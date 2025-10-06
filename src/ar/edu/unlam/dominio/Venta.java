@@ -15,7 +15,8 @@ public class Venta extends Operacion {
 	public Double obtenerPrecioFinal() {
 		Double precioFinal=super.getDisco().getPrecioVenta();
 		if(super.getCliente() instanceof ClientePremium) {
-			precioFinal *= 0.8;
+			ClientePremium clientePremium = (ClientePremium) getCliente();
+			precioFinal = getDisco().getPrecioVenta() - getDisco().getPrecioVenta() * clientePremium.getDescuento();
 		}
 		return precioFinal;
 	}

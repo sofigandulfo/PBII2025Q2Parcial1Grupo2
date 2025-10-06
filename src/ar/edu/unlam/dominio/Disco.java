@@ -4,7 +4,7 @@ public abstract class Disco {
 	
 	private String nombre;
 	private Double precioDeVenta;
-	private boolean estaDisponible;
+	private Boolean estaDisponible;
 	
 	public Disco(String nombre,Double precioDeVenta) {
 		this.nombre = nombre;
@@ -12,7 +12,33 @@ public abstract class Disco {
 		this.estaDisponible=true;
 	}
 	
-	public boolean obtenerEstaDisponible() {
+	
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+
+	public Double getPrecioDeVenta() {
+		return precioDeVenta;
+	}
+
+
+
+	public void setPrecioDeVenta(Double precioDeVenta) {
+		this.precioDeVenta = precioDeVenta;
+	}
+
+
+
+	public Boolean obtenerEstaDisponible() {
 		return this.estaDisponible;
 	}
 	public void marcarComoNoDisponible() {
@@ -20,7 +46,7 @@ public abstract class Disco {
 	}
 	protected abstract String getTipo();
 
-	public double getPrecioVenta() {
+	public Double getPrecioVenta() {
 		return this.precioDeVenta;
 	}
 

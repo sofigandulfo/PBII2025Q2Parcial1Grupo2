@@ -24,17 +24,6 @@ public class Gestor {
 	}
 	
 	
-	public Double obtenerPrecioVenta(Disco disco, Cliente cliente) {
-		Double precio = disco.getPrecioVenta();
-		
-		if(cliente instanceof ClientePremium) {
-			ClientePremium clientePremium = (ClientePremium) cliente;
-			precio = disco.getPrecioVenta() - disco.getPrecioVenta() * clientePremium.getDescuento();
-		}
-		
-		return precio;
-	}
-	
 	public Boolean estaElClienteRegistrado(Cliente cliente) {
 		for(Cliente client: clientes) {
 			if(client.equals(cliente)) {
@@ -67,7 +56,7 @@ public class Gestor {
 	}
 
 
-	public Alquiler encontrarAlquilerDelDisco(Disco disco, Cliente cliente) {
+	public Alquiler encontrarAlquilerActivoDelDisco(Disco disco, Cliente cliente) {
 		for(Operacion operacion : operaciones) {
 			if(operacion instanceof Alquiler) {
 				Alquiler alquiler = (Alquiler) operacion;
@@ -79,9 +68,21 @@ public class Gestor {
 		return null;
 	}
 
+	public Alquiler encontrarAlquilerDelDisco(Disco disco, Cliente cliente) {
+		for(Operacion operacion : operaciones) {
+			if(operacion instanceof Alquiler) {
+				Alquiler alquiler = (Alquiler) operacion;
+				if(alquiler.getDisco().equals(disco) && alquiler.getCliente().equals(cliente)) {
+					return alquiler;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public Boolean devolverDisco(Disco disco, Cliente cliente, LocalDateTime fechaDevolucion) {
-		Alquiler alquiler = encontrarAlquilerDelDisco(disco, cliente);
-		if(alquiler != null && !fechaDevolucion.isBefore(alquiler.getFechaEmision())) { 
+		Alquiler alquiler = encontrarAlquilerActivoDelDisco(disco, cliente);
+		if(alquiler != null && alquiler.getFechaDevolucion() == null && !fechaDevolucion.isBefore(alquiler.getFechaEmision())) { 
 			alquiler.devolverDisco(fechaDevolucion);
 			return true;
 		}
@@ -95,7 +96,18 @@ public class Gestor {
 		return this.discos.add(disco);
 	}
 
-
+	
+	public Venta obtenerVentaDelDisco(Disco disco, Cliente cliente) {
+		for(Operacion operacion : operaciones) {
+			if(operacion instanceof Venta) {
+				Venta venta = (Venta) operacion;
+				if(venta.getDisco().equals(disco) && venta.getCliente().equals(cliente)) {
+					return venta;
+				}
+			}
+		}
+		return null;
+	}
 
 
 	public Boolean venderDisco(Disco disco, Cliente cliente,LocalDateTime fechaEmision) {

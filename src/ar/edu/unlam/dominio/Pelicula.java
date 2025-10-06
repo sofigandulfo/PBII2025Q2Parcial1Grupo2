@@ -30,24 +30,31 @@ public class Pelicula extends Disco implements Alquilable{
 	public Double obtenerPrecioAlquilerPorDiaAtrasado() {
 		return this.precioAlquiler*1.5;
 	}
-	@Override
-	public Boolean alquilarProducto() {
-		// TODO Auto-generated method stub
-		return null;
+	public GeneroPelicula getGenero() {
+		return genero;
 	}
-	@Override
-	public void devolverProducto() {
-		// TODO Auto-generated method stub
-		
+	public void setGenero(GeneroPelicula genero) {
+		this.genero = genero;
 	}
-	@Override
-	public Double calcularPrecio() {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer getAnio() {
+		return anio;
 	}
-	@Override
-	public Double calcularPrecioAlquilerVencido() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setAnio(Integer anio) {
+		this.anio = anio;
 	}
+	public String getDirector() {
+		return director;
+	}
+	public void setDirector(String director) {
+		this.director = director;
+	}
+	public Integer getDuracion() {
+		return duracion;
+	}
+	public void setDuracion(Integer duracion) {
+		this.duracion = duracion;
+	}
+
+	
+	
 }

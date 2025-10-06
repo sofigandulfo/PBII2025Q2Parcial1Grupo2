@@ -61,7 +61,7 @@ public abstract class Cliente {
 	public abstract Integer obtenerPlazoDiasAlquiler();
 	
 	public void registrarNuevoStrike() {
-		this.strike ++;
+		this.strike++;
 	}
 
 	@Override
