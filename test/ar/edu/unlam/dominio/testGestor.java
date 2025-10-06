@@ -267,7 +267,7 @@ public class testGestor {
 	 
 	 @Test
 	 
-	 public void dadoQueTengoUnDiscoAlVenderloObtengoSuPrecioFinal() {
+	 public void dadoQueTengoUnDiscoAlVenderloObtengoResultadoExitoso() {
 		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
 		 gestor.agregarCliente(cliente);
 		 
@@ -275,10 +275,9 @@ public class testGestor {
 		 gestor.agregarDisco(pelicula);
 		 
 		 LocalDateTime fechaEmision= LocalDateTime.of(2025, 3, 10, 14, 30);
-		 Double precioObtenido = gestor.venderDisco(pelicula, cliente, fechaEmision);	 
-		 Double precioEsperado=2000D;
-		 
-		 assertEquals(precioEsperado,precioObtenido);
+		 Boolean seVende = gestor.venderDisco(pelicula, cliente, fechaEmision);	 
+
+		 assertTrue(seVende);
 	 }
 	 
 }

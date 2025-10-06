@@ -13,6 +13,7 @@ public class Gestor {
 	public Gestor() {
 		this.clientes = new HashSet<>();
 		this.operaciones = new HashSet<>();
+		this.discos = new ArrayList<>();
 	}
 	
 	
@@ -91,15 +92,15 @@ public class Gestor {
 
 
 
-	public Double venderDisco(Disco disco, Cliente cliente,LocalDateTime fechaEmision) {
+	public Boolean venderDisco(Disco disco, Cliente cliente,LocalDateTime fechaEmision) {
 		if (disco.obtenerEstaDisponible() && estaElClienteRegistrado(cliente) && cliente.estaBloqueado() == false) {
 			Operacion venta = new Venta(disco, cliente, fechaEmision);
 			this.operaciones.add(venta);
 			this.discos.remove(disco);
-			return ((Venta)venta).obtenerPrecioFinal();
+			return true;
 		}
 		
-		return null;
+		return false;
 	}
 	
 	
