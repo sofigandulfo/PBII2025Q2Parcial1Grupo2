@@ -9,7 +9,7 @@ public class Juego extends Disco {
 		
 	}
 	public String getTipo(){
-		return "Juego";
+		return "Juego de prueba";
 	}
 	public Consola getConsola() {
 		return consola;
