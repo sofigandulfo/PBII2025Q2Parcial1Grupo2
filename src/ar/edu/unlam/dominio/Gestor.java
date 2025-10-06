@@ -43,6 +43,13 @@ public class Gestor {
 		return false;
 	}
 
+	public Double obtenerPrecioAlquiler(Operacion operacion) {
+		if(operacion instanceof Alquiler) {
+			Alquiler alquiler = (Alquiler)operacion;
+			return alquiler.calcularPrecioFinal();
+		}
+		return null;
+	}
 
 
 
@@ -59,7 +66,7 @@ public class Gestor {
 	}
 
 
-	public Alquiler encontrarDiscoAlquilado(Disco disco, Cliente cliente) {
+	public Alquiler encontrarAlquilerDelDisco(Disco disco, Cliente cliente) {
 		for(Operacion operacion : operaciones) {
 			if(operacion instanceof Alquiler) {
 				Alquiler alquiler = (Alquiler) operacion;
@@ -71,10 +78,9 @@ public class Gestor {
 		return null;
 	}
 
-	// chicos les aviso q esta es la base del metodo nomas 
 	public Boolean devolverDisco(Disco disco, Cliente cliente, LocalDateTime fechaDevolucion) {
-		Alquiler alquiler = encontrarDiscoAlquilado(disco, cliente);
-		if(alquiler != null && !fechaDevolucion.isBefore(alquiler.getFechaEmision())) { //no se puede devolver si la fecha de devolucion es anterior a la fecha de emision del alquiler
+		Alquiler alquiler = encontrarAlquilerDelDisco(disco, cliente);
+		if(alquiler != null && !fechaDevolucion.isBefore(alquiler.getFechaEmision())) { 
 			alquiler.devolverDisco(fechaDevolucion);
 			return true;
 		}
@@ -99,6 +105,15 @@ public class Gestor {
 			return ((Venta)venta).obtenerPrecioFinal();
 		}
 		
+		return null;
+	}
+	
+	public Operacion obtenerOperacion(Disco disco, Cliente cliente) {
+		for(Operacion operacion : operaciones) {
+			if(operacion.getDisco().equals(disco) && operacion.getCliente().equals(cliente)) {
+				return operacion;
+			}
+		}
 		return null;
 	}
 	
