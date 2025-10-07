@@ -142,6 +142,26 @@ public class Gestor {
 		return coincidencias;
 	}
 
+	public HashSet<Cliente> obtenerListaClientesPremium() {
+		HashSet<Cliente> coincidencias = new HashSet<>();
+		for(Cliente cliente:clientes) {
+			if(cliente instanceof ClientePremium) {
+				coincidencias.add(cliente);
+			}
+		}
+		return coincidencias;
+	}
+	
+	public HashSet<Cliente> obtenerListaClientesNormal() {
+		HashSet<Cliente> coincidencias = new HashSet<>();
+		for(Cliente cliente:clientes) {
+			if(cliente instanceof ClienteNormal) {
+				coincidencias.add(cliente);
+			}
+		}
+		return coincidencias;
+	}
+
 
 
 
@@ -151,6 +171,47 @@ public class Gestor {
 	}
 
 
+
+
+	public ArrayList<Disco> obtenerInventarioPeliculas() {
+		ArrayList<Disco> coincidencias = new ArrayList<>();
+		for(Disco disco:discos) {
+			if(disco instanceof Pelicula) {
+				coincidencias.add(disco);
+			}
+		}
+		return coincidencias;
+	}
+
+	public ArrayList<Disco> obtenerInventarioJuegos() {
+		ArrayList<Disco> coincidencias = new ArrayList<>();
+		for(Disco disco:discos) {
+			if(disco instanceof Juego) {
+				coincidencias.add(disco);
+			}
+		}
+		return coincidencias;
+	}
+
+
+	public ArrayList<Disco> obtenerInventarioMusica() {
+		ArrayList<Disco> coincidencias = new ArrayList<>();
+		for(Disco disco:discos) {
+			if(disco instanceof Musica) {
+				coincidencias.add(disco);
+			}
+		}
+		return coincidencias;
+	}
+	public ArrayList<Disco> obtenerInventarioPrograma() {
+		ArrayList<Disco> coincidencias = new ArrayList<>();
+		for(Disco disco:discos) {
+			if(disco instanceof Programa) {
+				coincidencias.add(disco);
+			}
+		}
+		return coincidencias;
+	}
 
 
 	public  <Tipo extends Disco> ArrayList<Disco> obtenerInventarioPorTipo(Class<Tipo> tipo) {
@@ -163,26 +224,33 @@ public class Gestor {
 		return coincidencias;
 	}
 
-
-
-
 	public HashSet<Operacion> obtenerOperaciones() {
 		// TODO Auto-generated method stub
 		return operaciones;
 	}
 
 
-
-
-	public  <Tipo extends Operacion> HashSet<Operacion> obtenerOperacionesPorTipo(Class<Tipo> tipo) {
+	public HashSet<Operacion> obtenerOperacionesAlquiler() {
 		HashSet<Operacion> coincidencias = new HashSet<>();
 		for(Operacion operacion:operaciones) {
-			if(tipo.isInstance(operacion)) {
+			if(operacion instanceof Alquiler) {
 				coincidencias.add(operacion);
 			}
 		}
 		return coincidencias;
 	}
+
+
+	public HashSet<Operacion> obtenerOperacionesVenta() {
+		HashSet<Operacion> coincidencias = new HashSet<>();
+		for(Operacion operacion:operaciones) {
+			if(operacion instanceof Venta) {
+				coincidencias.add(operacion);
+				}
+		}
+		return coincidencias;
+	}
+		
 	public Cliente buscarClientePorDni(Integer dni) {
 		for (Cliente cliente : clientes) {
 			if(cliente.getDni().equals(dni)) {
@@ -193,7 +261,4 @@ public class Gestor {
 	}
 	
 	
-	
-	
-
 }
