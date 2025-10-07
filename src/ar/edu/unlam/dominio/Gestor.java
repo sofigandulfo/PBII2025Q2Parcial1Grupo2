@@ -225,6 +225,11 @@ public class Gestor {
 		for(Operacion operacion:operaciones) {
 			if(operacion instanceof Venta) {
 				coincidencias.add(operacion);
+		
+	public Cliente buscarClientePorDni(Integer dni) {
+		for (Cliente cliente : clientes) {
+			if(cliente.getDni().equals(dni)) {
+				return cliente;
 			}
 		}
 		return coincidencias;
