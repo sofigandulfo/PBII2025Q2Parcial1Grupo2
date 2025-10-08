@@ -1,8 +1,22 @@
 package ar.edu.unlam.interfaz;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
-import ar.edu.unlam.dominio.*;
+
+import ar.edu.unlam.dominio.Alquiler;
+import ar.edu.unlam.dominio.Cliente;
+import ar.edu.unlam.dominio.ClienteNormal;
+import ar.edu.unlam.dominio.ClientePremium;
+import ar.edu.unlam.dominio.Consola;
+import ar.edu.unlam.dominio.Disco;
+import ar.edu.unlam.dominio.GeneroMusica;
+import ar.edu.unlam.dominio.GeneroPelicula;
+import ar.edu.unlam.dominio.Gestor;
+import ar.edu.unlam.dominio.Juego;
+import ar.edu.unlam.dominio.Musica;
+import ar.edu.unlam.dominio.Pelicula;
+import ar.edu.unlam.dominio.Programa;
 public class gestorInterfaz {
 	
 	static Gestor gestor = new Gestor();
@@ -60,15 +74,15 @@ public class gestorInterfaz {
 			//  ------- Clientes----
 			//  ------- alquiler----
 			case 3:
-				alquilarDisco(teclado);
+				alquilarDisco(teclado,gestor);
 				break;
 			case 4:
-				devolverDisco(teclado);
+				devolverDisco(teclado,gestor);
 				break;
 			//           ------- alquiler----
 			//------------------- ventas=---------------
 			case 5:
-				venderDisco(teclado);
+				venderDisco(teclado,gestor);
 				break;
 			//------------------- ventas=---------------
 			case 6:
@@ -98,7 +112,7 @@ public class gestorInterfaz {
 	    }
 	}
 	
-	private static void alquilarDisco(Scanner teclado) {
+	private static void alquilarDisco(Scanner teclado,Gestor gestor) {
 		mostrarMensajePorPantalla("Ingrese Nro Dni cliente: ");
 		Integer dni = teclado.nextInt();
 		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
@@ -107,34 +121,61 @@ public class gestorInterfaz {
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
 		}
+		mostrarMensajePorPantalla("--------------------------");
+		for (Disco disco : gestor.obtenerInventarioAlquilableDisponible()) {
+			System.out.println(disco);
+		}
+		ArrayList<Disco> listaInventarioDisponible=gestor.obtenerInventarioAlquilableDisponible();
+		for (int i = 0; i < listaInventarioDisponible.size(); i++) {
+			System.out.println(i+" "+listaInventarioDisponible.get(i));
+		}
+		System.out.println("seleccione opcion");
+		Integer opcionDisco = teclado.nextInt();
+		LocalDateTime fechaEmision = LocalDateTime.now();
+		gestor.alquilarDisco(listaInventarioDisponible.get(opcionDisco), gestor.buscarClientePorDni(dni), fechaEmision);
 	}
-	private static void devolverDisco(Scanner teclado) {
+	private static void devolverDisco(Scanner teclado, Gestor gestor) {
 		mostrarMensajePorPantalla("Ingrese Nro Dni cliente: ");
 		Integer dni = teclado.nextInt();
-		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
+		Cliente clienteBuscado=gestor.buscarClientePorDni(dni);
+		if(gestor.estaElClienteRegistrado(clienteBuscado)) {
 			mostrarMensajePorPantalla("Cliente registrado");
-			
-			
-			
-			
+			mostrarMensajePorPantalla("--------------------------");
+//			ArrayList<Alquiler> listaAlquilados = gestor.obtenerAlquileresActivos();
+//			for (int i = 0; i < listaAlquilados.size(); i++) {
+//				System.out.println(i+" "+listaAlquilados.get(i));
+//			}
+//			System.out.println("seleccione opcion");
+////			Integer opcionAlquilado = teclado.nextInt();
+			LocalDateTime fechaActual = LocalDateTime.now();
+			Disco discoAlquilado=gestor.obtenerDiscoAlquiladoPorCliente(clienteBuscado);
+			gestor.devolverDisco(discoAlquilado, clienteBuscado, fechaActual);
 		}
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
 		}
+		
 	}
-	private static void venderDisco(Scanner teclado) {
+	private static void venderDisco(Scanner teclado, Gestor gestor) {
 		imprimirListaDiscos(gestor.obtenerInventario());
 		mostrarMensajePorPantalla("Ingrese Nro Dni cliente: ");
 		Integer dni = teclado.nextInt();
 		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
 			mostrarMensajePorPantalla("Cliente registrado");
-			
-			imprimirListaDiscos(gestor.obtenerInventario());
-		
+			mostrarMensajePorPantalla("--------------------------");
+			ArrayList<Disco> listaInventarioDisponible=gestor.obtenerInventario();
+			for (int i = 0; i < listaInventarioDisponible.size(); i++) {
+				System.out.println(i+" "+listaInventarioDisponible.get(i));
+			}
+			System.out.println("seleccione opcion");
+			Integer opcionDisco = teclado.nextInt();
+			LocalDateTime fechaActual = LocalDateTime.now();
+			gestor.venderDisco(listaInventarioDisponible.get(opcionDisco), gestor.buscarClientePorDni(dni), fechaActual);
 		}
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
 		}
+		
 	}
 	private static void agregarClienteNormal(Scanner teclado, Gestor gestor) {
 		mostrarMensajePorPantalla("Nro Dni del cliente: ");

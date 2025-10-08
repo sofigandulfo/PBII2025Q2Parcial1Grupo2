@@ -54,4 +54,9 @@ public abstract class Disco {
 		this.estaDisponible=true;
 		
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return nombre+" "+precioDeVenta;
+	}
 }

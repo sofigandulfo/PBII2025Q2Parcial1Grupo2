@@ -240,4 +240,40 @@ public class Gestor {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	public ArrayList<Disco> obtenerInventarioAlquilableDisponible() {
+	    ArrayList<Disco> disponibles = new ArrayList<>();
+	    for (Disco disco : discos) {
+	        if (disco instanceof Alquilable && disco.obtenerEstaDisponible()) {
+	            disponibles.add(disco);
+	        }
+	    }
+	    return disponibles;
+	}
+	public ArrayList<Alquiler> obtenerAlquileresActivos() {
+	    ArrayList<Alquiler> activos = new ArrayList<>();
+	    for (Operacion operacion : operaciones) {
+	        if (operacion instanceof Alquiler) {
+	            Alquiler alquiler = (Alquiler) operacion;
+	            if (alquiler.getFechaDevolucion() == null) { //si no tiene fecha no esta devuelto
+	                activos.add(alquiler);
+	            }
+	        }
+	    }
+	    return activos;
+	}
+	public Disco obtenerDiscoAlquiladoPorCliente(Cliente cliente) {
+	    for (Alquiler alquiler : obtenerAlquileresActivos()) {
+	        if (alquiler.getCliente().equals(cliente)) {
+	            return alquiler.getDisco();
+	        }
+	    }
+	    return null;
+	}
 }
