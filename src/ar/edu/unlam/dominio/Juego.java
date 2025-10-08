@@ -17,6 +17,11 @@ public class Juego extends Disco {
 	public void setConsola(Consola consola) {
 		this.consola = consola;
 	}
+	@Override
+	public String toString() {
+		return "Juego [consola=" + consola + ", Nombre=" + getNombre() + ", PrecioVenta=" + getPrecioVenta()
+				+ "]";
+	}
 	
 	
 }

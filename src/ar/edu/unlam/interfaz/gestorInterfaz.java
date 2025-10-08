@@ -1,5 +1,6 @@
 package ar.edu.unlam.interfaz;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 import ar.edu.unlam.dominio.*;
@@ -92,10 +93,11 @@ public class gestorInterfaz {
 	        System.out.println("No hay discos en el sistema");
 	        return;
 	    }
-
+	    int i = 1;
 	    for (Disco disco : listaDiscos) {
-	        System.out.println(disco);
+	        System.out.println(i+". "+disco);
 	    }
+	    i++;
 	}
 	
 	private static void alquilarDisco(Scanner teclado) {
@@ -103,6 +105,26 @@ public class gestorInterfaz {
 		Integer dni = teclado.nextInt();
 		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
 			mostrarMensajePorPantalla("Cliente registrado");
+			
+			imprimirListaDiscos(gestor.obtenerInventario());
+			
+			mostrarMensajePorPantalla("Ingrese el numero del disco que desea alquilar: ");
+			int numeroDisco = teclado.nextInt() - 1;
+			
+			ArrayList<Disco> lista = gestor.obtenerInventario();
+			 if (numeroDisco < 0 || numeroDisco >= lista.size()) {
+			       mostrarMensajePorPantalla("Numero invalido");
+			       return;
+			 }
+			 Disco disco = lista.get(numeroDisco);
+			 Boolean seAlquilo = gestor.alquilarDisco(disco, gestor.buscarClientePorDni(dni), LocalDateTime.now());
+			
+			 if(seAlquilo) {
+				 mostrarMensajePorPantalla("El disco se ha alquilado");
+			 }
+			 else {
+				 mostrarMensajePorPantalla("Ha habido un error no se ha alquilado");
+			 }
 		}
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
@@ -112,25 +134,53 @@ public class gestorInterfaz {
 		mostrarMensajePorPantalla("Ingrese Nro Dni cliente: ");
 		Integer dni = teclado.nextInt();
 		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
-			mostrarMensajePorPantalla("Cliente registrado");
+			imprimirListaDiscos(gestor.obtenerInventario());
 			
+			mostrarMensajePorPantalla("Ingrese el numero del disco que desea alquilar: ");
+			int numeroDisco = teclado.nextInt() - 1;
 			
+			ArrayList<Disco> lista = seleccionarDisco(numeroDisco);
+			Disco disco = lista.get(numeroDisco);
+			Boolean seDevolvio = gestor.devolverDisco(disco, gestor.buscarClientePorDni(dni), LocalDateTime.now());
 			
-			
+			if(seDevolvio) {
+				mostrarMensajePorPantalla("El disco se ha devuelto");
+			}
+			else {
+				 mostrarMensajePorPantalla("El disco no ha sido de vuelto");
+			}
 		}
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
 		}
 	}
+	private static ArrayList<Disco> seleccionarDisco(int numeroDisco) {
+		ArrayList<Disco> lista = gestor.obtenerInventario();
+		  if (numeroDisco < 0 || numeroDisco >= lista.size()) {
+		        mostrarMensajePorPantalla("Numero invalido");
+		        return;
+		  }
+		return lista;
+	}
 	private static void venderDisco(Scanner teclado) {
-		imprimirListaDiscos(gestor.obtenerInventario());
 		mostrarMensajePorPantalla("Ingrese Nro Dni cliente: ");
 		Integer dni = teclado.nextInt();
 		if(gestor.estaElClienteRegistrado(gestor.buscarClientePorDni(dni))) {
-			mostrarMensajePorPantalla("Cliente registrado");
-			
-			imprimirListaDiscos(gestor.obtenerInventario());
-		
+			 imprimirListaDiscos(gestor.obtenerInventario());
+			 
+			 mostrarMensajePorPantalla("Ingrese el numero del disco que desea vender: ");
+			 int numeroDisco = teclado.nextInt() - 1;
+			 
+			 ArrayList<Disco> lista = seleccionarDisco(numeroDisco);
+			Disco disco = lista.get(numeroDisco);
+			boolean seVendio = gestor.venderDisco(disco, gestor.buscarClientePorDni(dni), LocalDateTime.now());
+			    
+			if(seVendio) {
+			    mostrarMensajePorPantalla("El disco se ha vendido");
+			}
+			else {
+			    mostrarMensajePorPantalla("Ha habido un error no se ha vendido");
+			}
 		}
 		else {
 			mostrarMensajePorPantalla("El cliente no esta registrado no se puede alquilar");
@@ -177,6 +227,64 @@ public class gestorInterfaz {
 			mostrarMensajePorPantalla("Dato incorrecto intente de nuevo.");
 		}
 	}
+	
+	private static GeneroMusica seleccionarGeneroMusica(Scanner teclado) {
+		mostrarMensajePorPantalla("Generos de musica");
+	    GeneroMusica[] generos = GeneroMusica.values();
+
+	    for (int i = 0; i < generos.length; i++) {
+	    	mostrarMensajePorPantalla((i + 1) + "." + generos[i]);
+	    }
+
+	    mostrarMensajePorPantalla("Seleccione un genero: ");
+	    int opcion = teclado.nextInt();
+
+	    if (opcion < 1 || opcion > generos.length) {
+	    	mostrarMensajePorPantalla("Opcion invalida,  Se agregara Pop por defecto");
+	        return GeneroMusica.POP;
+	    }
+
+	    return generos[opcion - 1];
+	}
+
+	
+	private static GeneroPelicula seleccionarGeneroPelicula(Scanner teclado) {
+		mostrarMensajePorPantalla("Generos de pelicula");
+	    GeneroPelicula[] generos = GeneroPelicula.values();
+
+	    for (int i = 0; i < generos.length; i++) {
+	    	mostrarMensajePorPantalla((i + 1) + "." + generos[i]);
+	    }
+
+	    mostrarMensajePorPantalla("Ingrese un genero: ");
+	    int opcionPelicula = teclado.nextInt();
+
+	    if (opcionPelicula < 1 || opcionPelicula > generos.length) {
+	    	mostrarMensajePorPantalla("Opcion invalida.  Se asignara Suspenso por defecto");
+	        return GeneroPelicula.SUSPENSO;
+	    }
+
+	    return generos[opcionPelicula - 1];
+	}
+
+	private static Consola seleccionarConsola(Scanner teclado) {
+		mostrarMensajePorPantalla("Tipos de consola: ");
+	    Consola[] consolas = Consola.values();
+
+	    for (int i = 0; i < consolas.length; i++) {
+	        System.out.println((i + 1) + "." + consolas[i]);
+	    }
+	    mostrarMensajePorPantalla("Seleccione una consola: ");
+	    int opcionConsola = teclado.nextInt();
+
+	    if (opcionConsola < 1 || opcionConsola > consolas.length) {
+	    	mostrarMensajePorPantalla("Opcion invalida. Se asignara Play Station");
+	        return Consola.PLAY_STATION;
+	    }
+
+	    return consolas[opcionConsola - 1];
+	}
+
 	private static void agregarDiscoPrograma(Scanner teclado, Gestor gestor) {
 		mostrarMensajePorPantalla("Nombre del programa: ");
 		teclado.nextLine();
@@ -204,7 +312,7 @@ public class gestorInterfaz {
 		mostrarMensajePorPantalla("Nombre del juego: ");
 		teclado.nextLine(); 
 		String nombreJuego = teclado.nextLine();
-		Consola consola = Consola.PLAY_STATION; 
+		Consola consola = seleccionarConsola(teclado); 
 		mostrarMensajePorPantalla("Precio de venta: ");
 		Double precioJuego = teclado.nextDouble();
 
@@ -224,7 +332,7 @@ public class gestorInterfaz {
 	    mostrarMensajePorPantalla("Nombre de la pelicula: ");
 	    teclado.nextLine(); 
 	    String nombrePeli = teclado.nextLine();
-	    GeneroPelicula generoPeli = GeneroPelicula.SUSPENSO; 
+	    GeneroPelicula generoPeli = seleccionarGeneroPelicula(teclado); 
 	    mostrarMensajePorPantalla("Año: ");
 	    Integer anio = teclado.nextInt();
 	    teclado.nextLine(); 
@@ -258,7 +366,8 @@ public class gestorInterfaz {
 		String nombre = teclado.nextLine();
 		mostrarMensajePorPantalla("Nombre del autor: ");
 		String autor = teclado.nextLine();
-		GeneroMusica genero = GeneroMusica.POP;
+		
+		GeneroMusica genero = seleccionarGeneroMusica(teclado);
 		
 		mostrarMensajePorPantalla("Numero de canciones: ");
 		Integer cantidadDeCanciones = teclado.nextInt();
