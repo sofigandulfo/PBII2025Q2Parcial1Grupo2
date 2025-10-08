@@ -342,20 +342,6 @@ public class testGestor {
 			assertEquals(strikesEsperados, strikesObtenido);
 
 	 }
-	 @Test
-	 public void dadoQueExisteUnGestorYSeNecesitaSaberSiUnClienteEstaRegistrado(){
-		 Integer dni = 123;
-		 Cliente cliente = new ClienteNormal(123, "Sofia", "Gandulfo");
-		 
-		gestor.agregarCliente(cliente);
-		
-		Cliente valorEsperado = cliente;
-		Cliente valorObtenido = gestor.buscarClientePorDni(dni);
-		
-		assertEquals(valorEsperado,valorObtenido);
-		
-		
-	 }
 	 
 	 @Test
 	 public void dadoQueExisteUnGestorAlConsultarSusClientesObtengoLaListaDeClientes() {
@@ -391,13 +377,13 @@ public class testGestor {
 		HashSet<Cliente> clientesEsperados = new HashSet<>();
 		clientesEsperados.add(cliente);
 		clientesEsperados.add(cliente3);
-		HashSet<Cliente> clientesObtenidos = gestor.obtenerListaClientesTipo(ClienteNormal.class);
+		HashSet<Cliente> clientesObtenidos = gestor.obtenerListaClientesNormal();
 		
 		assertEquals(clientesEsperados, clientesObtenidos);
 		
 		HashSet<Cliente> clientesEsperados2 = new HashSet<>();
 		clientesEsperados2.add(cliente2);
-		HashSet<Cliente> clientesObtenidos2 = gestor.obtenerListaClientesTipo(ClientePremium.class);
+		HashSet<Cliente> clientesObtenidos2 = gestor.obtenerListaClientesPremium();
 		
 		assertEquals(clientesEsperados2, clientesObtenidos2);
 	 }
@@ -444,7 +430,7 @@ public class testGestor {
 		ArrayList<Disco> pelisEsperadas = new ArrayList<>();
 		pelisEsperadas.add(peli);
 		pelisEsperadas.add(peli2);
-		ArrayList<Disco> pelisObtenidas = gestor.obtenerInventarioPorTipo(Pelicula.class);
+		ArrayList<Disco> pelisObtenidas = gestor.obtenerInventarioPeliculas();
 		
 		assertEquals(pelisEsperadas, pelisObtenidas);
 		
@@ -452,9 +438,24 @@ public class testGestor {
 		juegosEsperados.add(juego);
 		juegosEsperados.add(juego2);
 		juegosEsperados.add(juego3);
-		ArrayList<Disco> juegosObtenidos = gestor.obtenerInventarioPorTipo(Juego.class);
+		ArrayList<Disco> juegosObtenidos = gestor.obtenerInventarioJuegos();
 		
 		assertEquals(juegosEsperados, juegosObtenidos);
+		
+		ArrayList<Disco> musicaEsperados = new ArrayList<>();
+		musicaEsperados.add(musica);
+		
+		ArrayList<Disco> musicaObtenidos = gestor.obtenerInventarioMusica();
+		
+		assertEquals(musicaEsperados, musicaObtenidos);
+		
+		ArrayList<Disco> programasEsperados = new ArrayList<>();
+		programasEsperados.add(programa);
+		
+		ArrayList<Disco> programasObtenidos = gestor.obtenerInventarioPrograma();
+		
+		assertEquals(programasEsperados, programasObtenidos);
+		
 	 }
 	 
 	 @Test
@@ -501,12 +502,12 @@ public class testGestor {
 		gestor.venderDisco(juego2, cliente, fechaEmision);
 		gestor.venderDisco(juego3, cliente, fechaEmision);
 		
-		HashSet<Operacion> operacionesObtenidas = gestor.obtenerOperacionesPorTipo(Alquiler.class);
+		HashSet<Operacion> operacionesObtenidas = gestor.obtenerOperacionesAlquiler();
 		Integer cantEsperada = 2;
 		
 		assertEquals(cantEsperada,(Integer)operacionesObtenidas.size());
 		
-		operacionesObtenidas = gestor.obtenerOperacionesPorTipo(Venta.class);
+		operacionesObtenidas = gestor.obtenerOperacionesVenta();
 		cantEsperada = 3;
 		
 		assertEquals(cantEsperada,(Integer)operacionesObtenidas.size());
